@@ -3,31 +3,35 @@
 
 {% block content %}
 <h1>Hi, {{g.user.nickname}}!</h1>
-<form action="" method="post" name="post">
-    {{form.hidden_tag()}}
-    <table>
+<table>
+    <thead>
         <tr>
-            <td>Say something:</td>
-            <td>{{ form.post(size = 30, maxlength = 140) }}</td>
-            <td>
-            {% for error in form.errors.post %}
-            <span style="color: red;">[{{error}}]</span><br>
-            {% endfor %}
-            </td>
+            <th>id</th>
+            <th>Title</th>
+            <th>Link</th>
+            <th>Content</th>
+            <th>Author ID</th>
+            <th>Upvotes</th>
+            <th>Timestamp</th>
         </tr>
+    </thead>
+
+    <tbody>
+        <!-- posts is a Paginate object -->
+        {% for post in posts.items %}
         <tr>
-            <td></td>
-            <td><input type="submit" value="Post!"></td>
-            <td></td>
+            <td>{{post.id}}
+            <td>{{post.title}}</td>
+            <td>{{post.song_url}}</td>
+            <td>{{post.content}}</td>
+            <td>{{post.author_id}}</td>
+            <td>{{post.upvotes}}</td>
+            <td>{{post.timestamp}}</td>
         </tr>
-    </table>
-</form>
-<!-- posts is a Paginate object -->
-{% for post in posts.items %}
-<p>
-  {{post.author.nickname}} says: <b>{{post.body}}</b>
-</p>
-{% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
 {% if posts.has_prev %}<a href="{{ url_for('index', page = posts.prev_num) }}"><< Newer posts</a>{% else %}<< Newer posts{% endif %} | 
 {% if posts.has_next %}<a href="{{ url_for('index', page = posts.next_num) }}">Older posts >></a>{% else %}Older posts >>{% endif %}
+
 {% endblock %}

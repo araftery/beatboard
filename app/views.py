@@ -15,17 +15,9 @@ from config import POSTS_PER_PAGE
 @app.route('/index/<int:page>', methods = ['GET', 'POST'])
 @login_required
 def index(page = 1):
-    form = PostForm()
-    if form.validate_on_submit():
-        post = Post(body = form.post.data, timestamp = datetime.utcnow(), author = g.user)
-        db.session.add(post)
-        db.session.commit()
-        flash('Your post is now live!')
-        return redirect(url_for('index'))
-    posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False).items
+    posts = Post.query.order_by(Post.upvotes.desc(), Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
     return render_template('index.html',
         title = 'Home',
-        form = form,
         posts = posts)
 
 ##############
@@ -74,7 +66,7 @@ def after_login(resp):
         nickname = resp.nickname
         if nickname is None or nickname == "":
             nickname = resp.email.split('@')[0]
-        user = User(nickname = nickname, email = resp.email, role = ROLE_USER)
+        user = User(nickname = nickname, email = resp.email, role = ROLE_USER, time_registered = int(datetime.utcnow().strftime("%s")))
         db.session.add(user)
         db.session.commit()
     remember_me = False
@@ -91,7 +83,7 @@ def after_login(resp):
 def before_request():
     g.user = current_user
     if g.user.is_authenticated():
-        g.user.last_seen = datetime.utcnow()
+        g.user.last_seen = int(datetime.utcnow().strftime("%s"))
         db.session.add(g.user)
         db.session.commit()
 
@@ -137,3 +129,20 @@ def edit():
         form.about_me.data = g.user.about_me
     return render_template('edit.html',
         form = form)
+
+###############
+# Submit View #
+###############
+@app.route('/submit', methods = ['GET', 'POST'])
+@login_required
+def submit():
+    pass
+    """
+    form = PostForm()
+        if form.validate_on_submit():
+            post = Post(body = form.post.data, timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
+            db.session.add(post)
+            db.session.commit()
+            flash('Your post is now live!')
+            return redirect(url_for('index'))
+    """
