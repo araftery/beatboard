@@ -196,3 +196,7 @@ def vote(post_id, upvoted, starred):
             result_starred = 0
         db.session.commit()
         return jsonify({'id': post_id, 'upvoted': result_upvoted, 'starred': result_starred})
+
+@app.route('/test')
+def test():
+    return render_template('test.html')

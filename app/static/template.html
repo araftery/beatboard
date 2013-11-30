@@ -1,11 +1,9 @@
-{% 
-set navigation_bar = [
+{% set navigation_bar = [
     ('/', 'index', 'Top'),
-    ('/submit', 'submit', 'Submit'),
+    ('/submit', 'submit', 'Submit')
     ('/user/', 'user', 'Profile'),
     ('/logout/', 'logout', 'Logout')
-    ]
--%}
+] -%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -33,23 +31,6 @@ set navigation_bar = [
 
 
 
-    <script src="/static/js/lib/jquery-1.8.3.min.js"></script>
-    <script src="/static/js/lib/jquery-ui-1.10.3.custom.min.js"></script>
-    <script src="/static/js/lib/jquery.ui.touch-punch.min.js"></script>
-    <script src="/static/js/lib/bootstrap.min.js"></script>
-    <script src="/static/js/lib/bootstrap-select.js"></script>
-    <script src="/static/js/lib/bootstrap-switch.js"></script>
-    <script src="/static/js/lib/flatui-checkbox.js"></script>
-    <script src="/static/js/lib/flatui-radio.js"></script>
-    <script src="/static/js/lib/jquery.tagsinput.js"></script>
-    <script src="/static/js/lib/jquery.placeholder.js"></script>
-
-    <!-- required -->
-    <script src="/static/js/lib/jquery.upvote.js"></script>
-    <script type="text/javascript" src="http://stratus.sc/stratus.js"></script>
-
-
-
     {% if title %}
         <title>{{title}} - CS50 project</title>
     {% else %}
@@ -67,9 +48,8 @@ set navigation_bar = [
             <div class="navbar-collapse collapse navbar-collapse-01">
                 <ul class="nav navbar-nav navbar-left">
                     {% for href, id, name in navigation_bar %}
-                        <li{% if id == active_page %} class="active"{% endif %}>
-                            <a href="{{ href|e }}">{{ name|e }}</a>
-                        </li>
+                        <li{% if id == active_page %} class="active"{% endif
+                        %}><a href="{{ href|e }}">{{ name|e }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -96,6 +76,21 @@ set navigation_bar = [
     </div>
     <!-- /.container -->
 
+
+    <script src="/static/js/lib/jquery-1.8.3.min.js"></script>
+    <script src="/static/js/lib/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/static/js/lib/jquery.ui.touch-punch.min.js"></script>
+    <script src="/static/js/lib/bootstrap.min.js"></script>
+    <script src="/static/js/lib/bootstrap-select.js"></script>
+    <script src="/static/js/lib/bootstrap-switch.js"></script>
+    <script src="/static/js/lib/flatui-checkbox.js"></script>
+    <script src="/static/js/lib/flatui-radio.js"></script>
+    <script src="/static/js/lib/jquery.tagsinput.js"></script>
+    <script src="/static/js/lib/jquery.placeholder.js"></script>
+
+    <!-- required -->
+    <script src="/static/js/lib/jquery.upvote.js"></script>
+    <script type="text/javascript" src="http://stratus.sc/stratus.js"></script>
   </body>
 </html>
 
