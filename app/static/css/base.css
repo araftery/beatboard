@@ -6,3 +6,23 @@ span.index
 	line-height:20px;
 	vertical-align: bottom;
 }
+
+#player
+{
+	position:fixed;
+}
+
+html, body {
+	height: 100%;
+}
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -40px;
+}
+
+.push {
+	height: 40px;
+}

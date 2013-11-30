@@ -1,0 +1,13 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://connect.soundcloud.com/sdk.js"></script>
+<script>
+SC.initialize({
+    client_id: '59935a11f9f900d300670793c7674d6d' // I added my id here
+});
+
+SC.get("/tracks/75868018", {}, function(sound){
+	console.log(sound);
+    alert("Sound URI: "+sound.uri);
+    $("#audio-test").attr("src", sound.uri);
+});
+</script>

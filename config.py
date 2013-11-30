@@ -14,4 +14,4 @@ OPENID_PROVIDERS = [
 SQLALCHEMY_DATABASE_URI = 'postgresql://andrewraftery@localhost:5432/cs50_project_3'
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
-POSTS_PER_PAGE = 20
+POSTS_PER_PAGE = 25

@@ -10,16 +10,17 @@ from config import POSTS_PER_PAGE
 ##############
 # Index view #
 ##############
-@app.route('/', methods = ['GET', 'POST'])
-@app.route('/index', methods = ['GET', 'POST'])
-@app.route('/index/<int:page>', methods = ['GET', 'POST'])
+@app.route('/', methods = ['GET'])
+@app.route('/index', methods = ['GET'])
+@app.route('/index/<int:page>', methods = ['GET'])
 @login_required
 def index(page = 1):
     #posts = Post.query.join(Post.upvotes).group_by(Post.id).paginate(page, POSTS_PER_PAGE, False)
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
     return render_template('index.html',
         title = 'Home',
-        posts = posts)
+        posts = posts,
+        posts_per_page = POSTS_PER_PAGE)
 
 ##############
 # Login view #
@@ -137,7 +138,7 @@ def edit():
 def submit():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'], timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
+        post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'].lower(), timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
         db.session.add(post)
 
         upvote = Upvote(voter = g.user, post = post)

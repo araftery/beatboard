@@ -1,0 +1,30 @@
+<!-- posts is a Paginate object -->
+{% for post in posts.items %}
+<post>
+        <script type="text/javascript">
+
+            $(function() {
+                $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ post.is_upvoted_by(g.user.id) }}, starred: {{ post.is_starred_by(g.user.id) }}, callback: callback});
+            });
+
+        </script>
+        <tr>
+            <td><span class="index">{{ loop.index }}.</span></td>
+            <td>
+                <div class="vote_group">
+                    <div class="upvote" id="group{{post.id}}">
+                        <a class="upvote"></a>
+                        <a class="star"></a>
+                    </div>
+                </div>
+            </td>
+            <td>{{post.id}}</td>
+            <td>{{post.title}}</td>
+            <td><a href="{{post.song_url}}" class="stratus">Link</a></td>
+            <td>{{post.content}}</td>
+            <td>{{post.author_id}}</td>
+            <td>{{post.upvotes.count()}}</td>
+            <td>{{post.timestamp}}</td>
+        </tr>
+</post>
+{% endfor %}
