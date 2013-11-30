@@ -2,10 +2,44 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script type="text/javascript">
+    var callback = function(data) {
+        if (data.upvoted == true)
+        {
+            data.upvoted_int = 1;
+        }
+        else
+        {
+            data.upvoted_int = 0;
+        }
+
+        if (data.starred == true)
+        {
+            data.starred_int = 1;
+        }
+        else
+        {
+            data.starred_int = 0;
+        }
+        url = '/vote/' + data.id + '/' + data.upvoted_int + '/' + data.starred_int
+        $.ajax({
+            url: '/vote/' + data.id + '/' + data.upvoted_int + '/' + data.starred_int,
+            type: 'GET',
+            success: function(data) {
+                console.log(url)
+                console.log(data) 
+
+            }
+        });
+    };
+</script>
+
 <h1>Hi, {{g.user.nickname}}!</h1>
 <table>
     <thead>
         <tr>
+            <th></th>
+            <th></th>
             <th>id</th>
             <th>Title</th>
             <th>Link</th>
@@ -19,19 +53,36 @@
     <tbody>
         <!-- posts is a Paginate object -->
         {% for post in posts.items %}
+        <script type="text/javascript">
+
+            $(function() {
+                $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ post.is_upvoted_by(g.user.id) }}, starred: {{ post.is_starred_by(g.user.id) }}, callback: callback});
+            });
+
+        </script>
         <tr>
-            <td>{{post.id}}
+            <td><span class="index">{{ loop.index }}.</span></td>
+            <td>
+                <div class="vote_group">
+                    <div class="upvote" id="group{{post.id}}">
+                        <a class="upvote"></a>
+                        <a class="star"></a>
+                    </div>
+                </div>
+            </td>
+            <td>{{post.id}}</td>
             <td>{{post.title}}</td>
-            <td>{{post.song_url}}</td>
+            <td><a href="{{post.song_url}}" class="stratus">Link</a></td>
             <td>{{post.content}}</td>
             <td>{{post.author_id}}</td>
-            <td>{{post.upvotes}}</td>
+            <td>{{post.upvotes.count()}}</td>
             <td>{{post.timestamp}}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<div class="pagination">
 {% if posts.has_prev %}<a href="{{ url_for('index', page = posts.prev_num) }}"><< Newer posts</a>{% else %}<< Newer posts{% endif %} | 
 {% if posts.has_next %}<a href="{{ url_for('index', page = posts.next_num) }}">Older posts >></a>{% else %}Older posts >>{% endif %}
-
+</div>
 {% endblock %}

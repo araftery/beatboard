@@ -1,12 +1,24 @@
 from app import db
 import datetime
 import utilities
+from sqlalchemy.orm import relationship
 
 ##############
 # User Model #
 ##############
 ROLE_USER = 0
 ROLE_ADMIN = 1
+
+def create_test_posts(start_num, num):
+    for i in range(start_num, num):
+        num = str(i)
+        post = Post(title = "test title " + num, content = "test content " + num, song_url = "http://www.google.com/test/url/" + num, timestamp = int(datetime.datetime.utcnow().strftime("%s")), author_id = 1)
+        db.session.add(post)
+
+        upvote = Upvote(voter_id = 1, post = post)
+        db.session.add(upvote)
+
+    db.session.commit()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -16,6 +28,11 @@ class User(db.Model):
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.Integer)
     time_registered = db.Column(db.Integer)
+    posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
+    upvotes = db.relationship('Upvote', backref = 'voter', lazy = 'dynamic')
+    stars = db.relationship('Star', backref = 'user', lazy = 'dynamic')
+    #num_upvotes = upvotes.count()
+
     #upvotes = db.relationship('Upvote', backref = 'author', lazy = 'dynamic')
     #posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
@@ -45,8 +62,16 @@ class Post(db.Model):
     song_url = db.Column(db.String(2000))
     timestamp = db.Column(db.Integer)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    upvotes = db.Column(db.Integer, default=1)
-    #upvotes = db.relationship('Upvote', backref = 'post', lazy = 'dynamic')
+    num_upvotes = db.Column(db.Integer, default = 1)
+    upvotes = db.relationship('Upvote', backref = 'post', lazy = 'dynamic')
+    stars = db.relationship('Star', backref = 'post', lazy = 'dynamic')
+
+    def is_upvoted_by(self, user_id):
+        return self.upvotes.filter(Upvote.voter_id == user_id).count()
+
+    def is_starred_by(self, user_id):
+        return self.stars.filter(Star.user_id == user_id).count()
+
     def __repr__(self):
         return '<Post %r>' % (self.id)
 
@@ -76,6 +101,5 @@ class Star(db.Model):
 #################
 class Upvote(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    voter_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    post_author = db.Column(db.Integer, db.ForeignKey('user.id'))

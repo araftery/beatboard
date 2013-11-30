@@ -5,8 +5,43 @@
     {% else %}
     <title>CS50 project</title>
     {% endif %}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="/static/js/jquery.upvote.js"></script>
+    <script src="/static/js/jquery.infinitescroll.js"></script>
+    <link rel="stylesheet" href="/static/css/jquery.upvote.css" />
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <script type="text/javascript" src="http://stratus.sc/stratus.js"></script>
+
+
+    <script type="text/javascript">
+    $(function(){
+        
+        $('body > .container').infinitescroll({
+            navSelector  : "div.pagination",
+            nextSelector : "div.pagination a:last",
+            itemSelector : "div.item",
+            bufferPx: 1000,
+        });
+     
+    });
+    </script>
+
+<script type="text/javascript">
+$(function(){
+    
+    $('body > .container').infinitescroll({
+        navSelector  : "div.pagination",
+        nextSelector : "div.pagination a:last",
+        itemSelector : "div.item",
+        bufferPx: 1000,
+    });
+ 
+});
+</script>
   </head>
   <body>
+    <div class="container">
     <div>CS50 project:
         <a href="{{ url_for('index') }}">Home</a>
         {% if g.user.is_authenticated() %}
@@ -23,7 +58,20 @@
     {% endfor %}
     </ul>
     {% endif %}
-    {% endwith %}
+    {% endwith %}   
     {% block content %}{% endblock %}
+  
+  <script type="text/javascript">
+      $(document).ready(function(){
+        $('#player').stratus({
+          auto_play: false,
+          links: 'http://soundcloud.com/m83',
+          theme: 'http://stratus.sc/themes/dark.css',
+          random: true
+        });
+      });
+    </script>
+<div id="player"></div>
+</div>
   </body>
 </html>

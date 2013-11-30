@@ -5,20 +5,24 @@ from migrate import *
 from migrate.changeset import schema
 pre_meta = MetaData()
 post_meta = MetaData()
-post = Table('post', post_meta,
+post = Table('post', pre_meta,
     Column('id', Integer, primary_key=True, nullable=False),
-    Column('body', String(length=140)),
-    Column('timestamp', DateTime),
-    Column('user_id', Integer),
+    Column('title', String),
+    Column('content', String),
+    Column('song_url', String),
+    Column('timestamp', Integer),
+    Column('author_id', Integer),
+    Column('upvotes', Integer),
 )
 
-user = Table('user', post_meta,
+post = Table('post', post_meta,
     Column('id', Integer, primary_key=True, nullable=False),
-    Column('nickname', String(length=64)),
-    Column('email', String(length=120)),
-    Column('role', SmallInteger, default=ColumnDefault(0)),
-    Column('about_me', String(length=140)),
-    Column('last_seen', DateTime),
+    Column('title', String(length=250)),
+    Column('content', String(length=5000)),
+    Column('song_url', String(length=2000)),
+    Column('timestamp', Integer),
+    Column('author_id', Integer),
+    Column('num_upvotes', Integer, default=ColumnDefault(1)),
 )
 
 
@@ -27,15 +31,13 @@ def upgrade(migrate_engine):
     # migrate_engine to your metadata
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
-    post_meta.tables['post'].create()
-    post_meta.tables['user'].columns['about_me'].create()
-    post_meta.tables['user'].columns['last_seen'].create()
+    pre_meta.tables['post'].columns['upvotes'].drop()
+    post_meta.tables['post'].columns['num_upvotes'].create()
 
 
 def downgrade(migrate_engine):
     # Operations to reverse the above upgrade go here.
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
-    post_meta.tables['post'].drop()
-    post_meta.tables['user'].columns['about_me'].drop()
-    post_meta.tables['user'].columns['last_seen'].drop()
+    pre_meta.tables['post'].columns['upvotes'].create()
+    post_meta.tables['post'].columns['num_upvotes'].drop()

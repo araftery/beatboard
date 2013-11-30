@@ -1,0 +1,25 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Submit a Song</h1>
+<form action="" method="post" name="login">
+    {{form.hidden_tag()}}
+    <p> Title: {{form.title}} </p>
+    <p> URL to Song: {{form.song_url(size=80)}} </p>
+    <p> Description: {{form.content}} </p>
+     
+    {% if form.errors %}
+    <ul class="errors">
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+<br>
+    <p><input type="submit" value="Submit"></p>
+</form>
+{% endblock %}
