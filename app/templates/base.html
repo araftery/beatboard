@@ -94,7 +94,7 @@ set navigation_bar = [
 
   </body>
 </html>
-
+{% if g.user.is_authenticated() %}
 <script type="text/javascript">
       $(document).ready(function(){
         $.stratus({
@@ -105,3 +105,4 @@ set navigation_bar = [
         });
       });
 </script>
+{% endif %}
