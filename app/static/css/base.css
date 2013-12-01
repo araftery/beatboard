@@ -1,7 +1,7 @@
 span.index
 {
 	position:relative;
-	top:5px;
+	bottom:0px;
 	height:20px;
 	line-height:20px;
 	vertical-align: bottom;
@@ -25,4 +25,31 @@ html, body {
 
 .push {
 	height: 40px;
+}
+
+table.posts
+{
+	width:100%;
+}
+
+table.posts td
+{
+	padding:10px;
+}
+
+/* === Rank Number ==== */
+table.posts td:first-child
+{
+	text-align:right;
+}
+
+/* === Upvote/Star === */
+table.posts td:nth-child(2)
+{
+	width:20px;
+}
+
+.navbar
+{
+	margin-top:25px;
 }

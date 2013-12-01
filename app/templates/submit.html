@@ -6,8 +6,8 @@
 <h1>Submit a Song</h1>
 <form action="" method="post" name="login">
     {{form.hidden_tag()}}
-    <p> Title: {{form.title}} </p>
-    <p> URL to Song: {{form.song_url(size=80)}} </p>
+    <p> Title: {{form.title(size=80, value=title)}} </p>
+    <p> URL to Song: {{form.song_url(size=80, value=url)}} </p>
     <p> Description: {{form.content}} </p>
      
     {% if form.errors %}

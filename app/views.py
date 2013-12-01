@@ -134,8 +134,9 @@ def edit():
 # Submit View #
 ###############
 @app.route('/submit', methods = ['GET', 'POST'])
+@app.route('/submit/<title>/<path:url>', methods = ['GET', 'POST'])
 @login_required
-def submit():
+def submit(title = '', url = ''):
     form = PostForm()
     if form.validate_on_submit():
         post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'].lower(), timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
@@ -149,7 +150,7 @@ def submit():
         flash('Your post is now live!')
         return redirect(url_for('index'))
     else:
-        return render_template('submit.html', form = form)
+        return render_template('submit.html', form = form, title = title, url = url)
 
 ################
 # Vote Handler #
