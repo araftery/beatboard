@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 psql template1
 CREATE DATABASE cs50_project_3;
+CREATE USER andrewraftery WITH PASSWORD 'password';
 GRANT ALL PRIVILEGES ON DATABASE cs50_project_3 to andrewraftery;
 \q
-~/cs50_project/flask/bin/python ~/cs50_project_3/add_test_elements.py
+~/cs50_project/flask/bin/python ~/cs50_project/add_test_elements.py
