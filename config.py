@@ -11,7 +11,7 @@ OPENID_PROVIDERS = [
     { 'name': 'Flickr', 'url': 'http://www.flickr.com/<username>' },
     { 'name': 'MyOpenID', 'url': 'https://www.myopenid.com' }]
     
-SQLALCHEMY_DATABASE_URI = 'postgresql://cs50_project:password@localhost/cs50_project'
+SQLALCHEMY_DATABASE_URI = 'postgresql://cs50_project@localhost/cs50_project'
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 POSTS_PER_PAGE = 25
