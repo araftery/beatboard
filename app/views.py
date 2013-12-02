@@ -13,6 +13,7 @@ from config import POSTS_PER_PAGE
 @app.route('/', methods = ['GET'])
 @app.route('/index', methods = ['GET'])
 @app.route('/index/<int:page>', methods = ['GET'])
+@login_required
 def index(page = 1):
     #posts = Post.query.join(Post.upvotes).group_by(Post.id).paginate(page, POSTS_PER_PAGE, False)
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
