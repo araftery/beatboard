@@ -1,9 +1,10 @@
 #!/Users/andrewraftery/cs50_project/flask/bin/python
-# EASY-INSTALL-ENTRY-SCRIPT: 'sqlalchemy-migrate==0.7.2','console_scripts','migrate'
-__requires__ = 'sqlalchemy-migrate==0.7.2'
-import sys
-from pkg_resources import load_entry_point
+# PBR Generated from 'console_scripts'
 
-sys.exit(
-   load_entry_point('sqlalchemy-migrate==0.7.2', 'console_scripts', 'migrate')()
-)
+import sys
+
+from migrate.versioning.shell import main
+
+
+if __name__ == "__main__":
+    sys.exit(main())
