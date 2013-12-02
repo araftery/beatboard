@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from app import app, db
 from app.models import Post, Upvote, Star
 import datetime
