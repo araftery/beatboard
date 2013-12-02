@@ -1,4 +1,4 @@
-#!flask/bin/python
+#!/usr/bin/python
 import os
 
 from flup.server.fcgi import WSGIServer

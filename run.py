@@ -1,6 +1,5 @@
-#!flask/bin/python
+#!/usr/bin/python
 import sys
-sys.stderr.write('\n'.join(sys.path))
 
 from app import app
 

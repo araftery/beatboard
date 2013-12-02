@@ -1,4 +1,4 @@
-#!flask/bin/python
+#!/usr/bin/python
 import os
 import sys
 if sys.platform == 'win32':
