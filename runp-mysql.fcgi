@@ -1,7 +1,5 @@
 #!flask/bin/python
-
-# use mysql
-os.environ['DATABASE_URL'] = 'mysql://cs50_project:cs50_project@localhost/cs50_project'
+import os
 
 from flup.server.fcgi import WSGIServer
 from app import app
