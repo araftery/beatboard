@@ -1,5 +1,7 @@
 #!flask/bin/python
-print "run.py"
+import sys
+sys.stderr.write('\n'.join(sys.path))
+
 from app import app
 
 if __name__ == '__main__':

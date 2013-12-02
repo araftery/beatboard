@@ -1,10 +1,11 @@
-print "__init__.py"
 import os
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.openid import OpenID
 from config import basedir
+import sys
+sys.stderr.write('\n'.join(sys.path))
 
 app = Flask(__name__)
 app.config.from_object('config')
