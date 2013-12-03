@@ -3,50 +3,16 @@
 {% set active_page = 'index' -%}
 
 {% block content %}
-<script type="text/javascript">
-    var callback = function(data) {
-        if (data.upvoted == true)
-        {
-            data.upvoted_int = 1;
-        }
-        else
-        {
-            data.upvoted_int = 0;
-        } 
-
-        if (data.starred == true)
-        {
-            data.starred_int = 1;
-        }
-        else
-        {
-            data.starred_int = 0;
-        }
-        url = '/vote/' + data.id + '/' + data.upvoted_int + '/' + data.starred_int
-        $.ajax({
-            url: '/vote/' + data.id + '/' + data.upvoted_int + '/' + data.starred_int,
-            type: 'GET'
-        });
-    };
-</script>
 
 <table class="posts">
-    <thead>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>Top Hits</th>
-            <th>Link</th>
-        </tr>
-    </thead>
 
     <tbody>
             <!-- posts is a Paginate object -->
             {% for post in posts.items %}
                 <tr>
                     <td><span class="index">{{ ((posts.prev_num) * posts_per_page) + loop.index }}.</span></td>
-                    <td>
+
+                    <td class="star">
                         <div class="vote_group">
                             <div class="upvote" id="group{{post.id}}">
                                 <a class="upvote"></a>
@@ -59,13 +25,13 @@
                         {{post.upvotes.count()}}
                     </td>
                     
-                    <td><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
-                    <td><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">Play</a></td>
+                    <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
                 </tr>
+
                 <tr>
                     <td colspan="3"></td>
-                    <td colspan="2">
-                        {{post.author.nickname}}  
+                    <td colspan="1">
+                        <a href="{{ url_for('user', nickname = post.author.nickname) }}">{{ post.author.nickname }}</a>
                         5 hours ago
                     </td>
                 </tr>

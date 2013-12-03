@@ -12,6 +12,7 @@
     ]
 -%}
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -53,8 +54,6 @@
     <script src="/static/js/lib/jquery.upvote.js"></script>
     <script type="text/javascript" src="http://stratus.sc/stratus.js"></script>
 
-
-
     {% if title %}
         <title>beatboard - {{title}}</title>
     {% else %}
@@ -67,7 +66,8 @@
         <div class="navbar navbar-inverse">  
             <div class="navbar-inner">
                 <ul class="nav navbar-nav navbar-left">
-                    <li class="logo"><img height="40" src="/static/img/logo_white.png"></img></li>
+                    <li class="logo"><img height="30" src="/static/img/logo_white.png" /></li>
+
                     {% for href, id, name in navigation_bar %}
                         <li{% if id == active_page %} class="active"{% endif %}>
                             <a href="{{ href|e }}">{{ name|e }}</a>
@@ -86,7 +86,7 @@
         {% if messages %}
         <ul>
         {% for message in messages %}
-            <li>{{ message }} </li>
+            <li>{{ message }}</li>
         {% endfor %}
         </ul>
         {% endif %}
