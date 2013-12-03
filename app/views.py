@@ -96,15 +96,21 @@ def logout():
 #####################
 # User Profile Page #
 #####################
+@app.route('/user/<nickname>/<int:page>')
 @app.route('/user/<nickname>')
 @login_required
-def user(nickname):
+def user(nickname, page = 1):
     user = User.query.filter_by(nickname = nickname).first()
     if user == None:
         flash('User ' + nickname + ' not found.', 'danger')
         return redirect(url_for('index'))
+
+    posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.author_id == user.id).order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
+
     return render_template('user.html',
-        user = user)
+        user = user,
+        no_show_rank = True,
+        posts = posts)
 
 #####################
 # Edit Profile Page #

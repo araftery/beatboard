@@ -1,10 +1,11 @@
-
 <table class="posts">
     <tbody>
             <!-- posts is a Paginate object -->
             {% for post in posts.items %}
                 <tr>
+                    {% if not no_show_rank %}
                     <td class="rank"><span class="index">{{ ((posts.prev_num) * posts_per_page) + loop.index }}.</span></td>
+                    {% endif %}
                     <td class="vote">
                         <div class="vote_group">
                             <div class="upvote" id="group{{post.id}}">
@@ -21,7 +22,7 @@
                     <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
                 </tr>
                 <tr>
-                    <td colspan="3"></td>
+                    <td colspan="{{ 2 if no_show_rank else 3 }}"></td>
                     <td colspan="1">
                         <a href="{{url_for('user', nickname = post.author.nickname)}}">{{post.author.nickname}}</a>
                         <script type="text/javascript">document.write(moment('{{ post.timestamp }}', 'X').fromNow());</script>

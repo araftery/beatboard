@@ -1,0 +1,37 @@
+<table class="posts">
+    <tbody>
+            <tr>
+                <td class="vote">
+                    <div class="vote_group">
+                        <div class="upvote" id="group{{post.id}}">
+                            <a class="upvote"></a>
+                            <a class="star"></a>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="upvotes">
+                    {{post.upvotes.count()}}
+                </td>
+                
+                <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="1">
+                    <a href="{{url_for('user', nickname = post.author.nickname)}}">{{post.author.nickname}}</a>
+                    <script type="text/javascript">document.write(moment('{{ post.timestamp }}', 'X').fromNow());</script>
+                </td>
+            </tr>
+    </tbody>
+</table>
+
+
+
+<script type="text/javascript">
+
+    $(function() {
+        $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ post.is_upvoted_by(g.user.id) }}, starred: {{ post.is_starred_by(g.user.id) }}, callback: callback});
+    });
+
+</script>
