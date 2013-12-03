@@ -31,22 +31,12 @@
 </script>
 
 <table class="posts">
-    <thead>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>Top Hits</th>
-            <th>Link</th>
-        </tr>
-    </thead>
-
     <tbody>
             <!-- posts is a Paginate object -->
             {% for post in posts.items %}
                 <tr>
-                    <td><span class="index">{{ ((posts.prev_num) * posts_per_page) + loop.index }}.</span></td>
-                    <td>
+                    <td class="rank"><span class="index">{{ ((posts.prev_num) * posts_per_page) + loop.index }}.</span></td>
+                    <td class="vote">
                         <div class="vote_group">
                             <div class="upvote" id="group{{post.id}}">
                                 <a class="upvote"></a>
@@ -59,12 +49,11 @@
                         {{post.upvotes.count()}}
                     </td>
                     
-                    <td><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
-                    <td><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">Play</a></td>
+                    <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
                 </tr>
                 <tr>
                     <td colspan="3"></td>
-                    <td colspan="2">
+                    <td colspan="1">
                         {{post.author.nickname}}  
                         5 hours ago
                     </td>
