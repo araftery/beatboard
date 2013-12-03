@@ -27,27 +27,6 @@ html, body {
 	height: 40px;
 }
 
-table.posts
-{
-	width:100%;
-}
-
-table.posts td
-{
-	padding:10px;
-}
-
-/* === Rank Number ==== */
-table.posts td:first-child
-{
-	text-align:right;
-}
-
-/* === Upvote/Star === */
-table.posts td:nth-child(2)
-{
-	width:20px;
-}
 
 .navbar
 {
@@ -62,6 +41,55 @@ table.posts td:nth-child(2)
 
 .navbar-search
 {
-	line-height:25px;
+	line-height:20px;
 	margin:10px 10px 0 0;
+}
+
+/* === POSTS TABLE === */
+
+table.posts tr td.upvotes
+{
+	font-size:12pt;
+	color: orange;
+	padding-top:10px !important;
+}
+
+table.posts thead th 
+{
+	text-align: center;
+}
+
+table.posts
+{
+	width:100%;
+}
+
+table.posts tr:nth-child(odd) td
+{
+	padding-bottom: 5px !important;
+}
+table.posts tr:nth-child(even) td
+{
+	font-size: 12px;
+	font-style: italic;
+	text-align:left;
+	padding-bottom:20px !important;
+}
+
+table.posts td
+{
+	padding:0px 5px 0px 5px;
+}
+
+/* === Rank Number ==== */
+table.posts td:first-child
+{
+	text-align:right;
+}
+
+
+/* === Upvote/Star === */
+table.posts td:nth-child(2)
+{
+	width:20px;
 }
