@@ -20,6 +20,7 @@ def index(page = 1):
         title = 'Home',
         posts = posts,
         posts_per_page = POSTS_PER_PAGE)
+    
 
 
 ##############
