@@ -126,7 +126,7 @@ def submit(title = '', url = ''):
         existing_post = Post.query.filter(Post.song_url == form.data['song_url']).first()
         if (existing_post is not None):
             if (Upvote.query.filter(Upvote.post_id == existing_post.id and Upvote.voter_id == g.user.id).count() == 0):
-                upvote = Upvote(voter = g.user, post_id = existing_post.post_id)
+                upvote = Upvote(voter = g.user, post_id = existing_post.id)
                 db.session.add(upvote)
                 db.session.commit()
 
