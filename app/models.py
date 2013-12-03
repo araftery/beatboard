@@ -92,10 +92,16 @@ class Post(db.Model):
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def is_upvoted_by(self, user_id):
-        return self.upvotes.filter(Upvote.voter_id == user_id).count() != 0
+        if self.upvotes.filter(Upvote.voter_id == user_id).count() > 0:
+            return 1
+        else:
+            return 0
 
     def is_starred_by(self, user_id):
-        return self.stars.filter(Star.user_id == user_id).count() != 0
+        if self.stars.filter(Star.user_id == user_id).count() > 0
+            return 1
+        else:
+            return 0
 
     def __repr__(self):
         return '<Post %r>' % (self.id)
