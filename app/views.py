@@ -45,7 +45,7 @@ def login():
 @oid.after_login
 def after_login(resp):
     if resp.email is None or resp.email == "":
-        flash('Invalid login. Please try again.')
+        flash('Invalid login. Please try again.', 'error')
         return redirect(url_for('login'))
     user = User.query.filter_by(email = resp.email).first()
     if user is None:
@@ -90,7 +90,7 @@ def logout():
 def user(nickname):
     user = User.query.filter_by(nickname = nickname).first()
     if user == None:
-        flash('User ' + nickname + ' not found.')
+        flash('User ' + nickname + ' not found.', 'error')
         return redirect(url_for('index'))
     return render_template('user.html',
         user = user)
@@ -107,7 +107,7 @@ def edit():
         g.user.about_me = form.about_me.data
         db.session.add(g.user)
         db.session.commit()
-        flash('Your changes have been saved.')
+        flash('Your changes have been saved.', 'success')
         return redirect(url_for('edit'))
     else:
         form.nickname.data = g.user.nickname
@@ -130,10 +130,10 @@ def submit(title = '', url = ''):
                 db.session.add(upvote)
                 db.session.commit()
 
-                flash("A duplicate post exists. An upvote has automatically been added to the post.")
+                flash("A duplicate post exists. An upvote has automatically been added to the post.", 'info')
                 return redirect(url_for('index'))
             else:
-                flash("You have already upvoted a duplicate post.")
+                flash("You have already upvoted a duplicate post.", 'error')
                 return redirect(url_for('index'))
         else:
             post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'].lower(), timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
@@ -144,7 +144,7 @@ def submit(title = '', url = ''):
 
             db.session.commit()
 
-            flash('Your post is now live!')
+            flash('Your post is now live!', 'success')
             return redirect(url_for('index'))
     else:
         return render_template('submit.html', form = form, title = title, url = url)
