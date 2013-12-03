@@ -124,21 +124,28 @@ def submit(title = '', url = ''):
     form = PostForm()
     if form.validate_on_submit():
         existing_post = Post.query.filter(Post.song_url == url).first()
-        if (existing_post and Upvote.query.filter(Upvote.post_id == existing_post.id and Upvote.voter_id == g.user.id).count() == 0):
+        if (existing_post):
+            if (Upvote.query.filter(Upvote.post_id == existing_post.id and Upvote.voter_id == g.user.id).count() == 0):
+                upvote = Upvote(voter = g.user, post = post)
+                db.session.add(upvote)
+                db.session.commit()
+
+                flash("A duplicate post exists. An upvote has automatically been added to the post.")
+                return redirect(url_for('index'))
+            else:
+                flash("You have already upvoted a duplicate post.")
+                return redirect(url_for('index'))
+        else:
+            post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'].lower(), timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
+            db.session.add(post)
+
             upvote = Upvote(voter = g.user, post = post)
             db.session.add(upvote)
+
             db.session.commit()
-    else:
-        post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'].lower(), timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
-        db.session.add(post)
 
-        upvote = Upvote(voter = g.user, post = post)
-        db.session.add(upvote)
-
-        db.session.commit()
-
-        flash('Your post is now live!')
-        return redirect(url_for('index'))
+            flash('Your post is now live!')
+            return redirect(url_for('index'))
     else:
         return render_template('submit.html', form = form, title = title, url = url)
 
