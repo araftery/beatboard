@@ -45,7 +45,7 @@ def login():
 @oid.after_login
 def after_login(resp):
     if resp.email is None or resp.email == "":
-        flash('Invalid login. Please try again.', 'error')
+        flash('Invalid login. Please try again.', 'danger')
         return redirect(url_for('login'))
     user = User.query.filter_by(email = resp.email).first()
     if user is None:
@@ -90,7 +90,7 @@ def logout():
 def user(nickname):
     user = User.query.filter_by(nickname = nickname).first()
     if user == None:
-        flash('User ' + nickname + ' not found.', 'error')
+        flash('User ' + nickname + ' not found.', 'danger')
         return redirect(url_for('index'))
     return render_template('user.html',
         user = user)
@@ -133,7 +133,7 @@ def submit(title = '', url = ''):
                 flash("A duplicate post exists. An upvote has automatically been added to the post.", 'info')
                 return redirect(url_for('index'))
             else:
-                flash("You have already upvoted a duplicate post.", 'error')
+                flash("You have already upvoted a duplicate post.", 'danger')
                 return redirect(url_for('index'))
         else:
             post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'].lower(), timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
