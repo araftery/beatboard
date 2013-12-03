@@ -2,6 +2,7 @@ from app import db
 import datetime
 import utilities
 from sqlalchemy.orm import relationship
+from hashlib import md5
 
 ##############
 # User Model #
@@ -30,6 +31,8 @@ class User(db.Model):
     time_registered = db.Column(db.Integer)
     posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
     stars = db.relationship('Star', backref = 'user', lazy = 'dynamic')
+    upvote = db.relationship('Upvote', backref = 'voter', lazy = 'dynamic')
+    comments  = db.relationship('Comment', backref='author', lazy = 'dynamic')
     #num_upvotes = upvotes.count()
 
     #upvotes = db.relationship('Upvote', backref = 'author', lazy = 'dynamic')
@@ -48,8 +51,14 @@ class User(db.Model):
         num_upvotes = Upvote.query.filter(self.id == Upvote.post_author_id).count()
         return num_upvotes
 
+    def avg_karma(self):
+        return round(self.num_upvotes()/self.posts.count(), 2)
+
     def get_id(self):
         return unicode(self.id)
+
+    def avatar(self, size):
+        return 'https://s.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
 
 
     # Source: 
@@ -122,4 +131,4 @@ class Upvote(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     voter_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    post_author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    post_author_id = db.Column(db.Integer)

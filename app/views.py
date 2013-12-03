@@ -85,17 +85,15 @@ def logout():
 #####################
 # User Profile Page #
 #####################
-@app.route('/user/<nickname>/<int:page>')
+@app.route('/user/<nickname>')
 @login_required
-def user(nickname, page = 1):
+def user(nickname):
     user = User.query.filter_by(nickname = nickname).first()
     if user == None:
         flash('User ' + nickname + ' not found.')
         return redirect(url_for('index'))
-    posts = user.posts.paginate(page, POSTS_PER_PAGE, False)
     return render_template('user.html',
-        user = user,
-        posts = posts)
+        user = user)
 
 #####################
 # Edit Profile Page #
@@ -164,7 +162,7 @@ def vote(post_id, upvoted, starred):
         else:
             # if this user has already upvoted
             if existing_upvote is not None:
-                post.upvotes.remove(existing_upvote)
+                db.session.delete(existing_upvote)
             
             result_upvoted = 0
 
@@ -178,7 +176,7 @@ def vote(post_id, upvoted, starred):
         else:
             # if this user has already starred
             if existing_star is not None:
-                post.stars.remove(existing_star)
+                db.session.delete(existing_star)
 
             result_starred = 0
         db.session.commit()

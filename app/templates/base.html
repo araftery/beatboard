@@ -1,8 +1,13 @@
-{% 
-set navigation_bar = [
+{% if g.user.nickname %}
+{% set profile_link = '/user/' + g.user.nickname %}
+{% else %}
+{% set profile_link = '/' %}
+{% endif %}
+
+{% set navigation_bar = [
     ('/', 'index', 'Top'),
     ('/submit', 'submit', 'Submit'),
-    ('/user', 'user', 'Profile'),
+    (profile_link, 'user', 'Profile'),
     ('/logout', 'logout', 'Logout')
     ]
 -%}
@@ -10,7 +15,6 @@ set navigation_bar = [
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Flat UI Free</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap -->
@@ -24,6 +28,7 @@ set navigation_bar = [
     
     <!-- custom styles -->
     <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/css/andrew_to_merge.css" />
 
     <link rel="shortcut icon" href="/static/img/favicon.ico">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
@@ -51,9 +56,9 @@ set navigation_bar = [
 
 
     {% if title %}
-        <title>{{title}} - CS50 project</title>
+        <title>beatboard - {{title}}</title>
     {% else %}
-        <title>CS50 project</title>
+        <title>beatboard</title>
     {% endif %}
   
   </head>

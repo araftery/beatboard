@@ -2,20 +2,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-<table>
-    <tr valign="top">
-        <td>
-            <h1>User: {{user.nickname}}</h1>
-            {% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}
-            {% if user.last_seen %}<p><i>Last seen on: {{user.last_seen}}</i></p>{% endif %}
-            {% if user.id == g.user.id %}<p><a href="{{url_for('edit')}}">Edit</a></p>{% endif %}
-        </td>
-    </tr>
-</table>
-<hr>
-<!-- posts is a Paginate object -->
-{% for post in posts.items %}
-    {% include 'post.html' %}
-{% endfor %}
-{% if posts.has_prev %}<a href="{{ url_for('user', nickname = user.nickname, page = posts.prev_num) }}"><< Newer posts</a>{% else %}<< Newer posts{% endif %} | 
-{% if posts.has_next %}<a href="{{ url_for('user', nickname = user.nickname, page = posts.next_num) }}">Older posts >></a>{% else %}Older posts >>{% endif %}
+
+<div class="user-top-container">
+    <div class="user-top">
+
+        <h1>{{ user.nickname }}</h1>
+        <div class="user-pic">
+            <img class="avatar" src="{{ user.avatar(200) }}" />
+        </div>
+
+        <div class="stats">
+            <table class="stats-table">
+                <tr>
+                    <td>Posts</td>
+                    <td>{{ user.posts.count() }}</td>
+                </tr>
+
+                <tr>
+                    <td>Upvotes</td>
+                    <td>{{ user.num_upvotes() }}</td>
+                </tr>
+
+                <tr>
+                    <td>Average Upvotes</td>
+                    <td>
+                        {% if user.posts.count() > 0 %}
+                            {{ (user.num_upvotes()/user.posts.count())|round(2) }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Comments</td>
+                    <td>{{ user.comments.count() }}</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <!-- /.user-top -->
+</div>
+<!-- /.user-top-container -->
+
+{% endblock %}

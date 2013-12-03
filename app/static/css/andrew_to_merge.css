@@ -1,0 +1,26 @@
+.avatar
+{
+	border:7px solid;
+	float:left;
+}
+
+.stats
+{
+	float:left;
+	margin-left:20px;
+}
+
+.stats .stats-table td
+{
+	padding:10px;
+}
+
+.stats .stats-table tr td:nth-child(1)
+{
+	text-align:justify;
+}
+
+.user-top-container
+{
+	display:block;
+}
