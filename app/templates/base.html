@@ -89,6 +89,10 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
+            {% if message is None %}
+                {% set message = 'info' %}
+            {% endif %}
+            
             <div class="alert alert-{{category}}">{{ message }} </div>
         {% endfor %}
         {% endif %}
