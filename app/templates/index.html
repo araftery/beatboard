@@ -30,32 +30,21 @@
     };
 </script>
 
-<h1>Hi, {{g.user.nickname}}!!</h1>
+<h1>Hi there, {{g.user.nickname}}!</h1>
 <table class="posts">
-    <thead>
+    <thead class="thead">
         <tr>
             <th></th>
             <th></th>
-            <th>id</th>
-            <th>Title</th>
+            <th></th>
+            <th>Top Hits</th>
             <th>Link</th>
-            <th>Content</th>
-            <th>Author ID</th>
-            <th>Upvotes</th>
-            <th>Timestamp</th>
         </tr>
     </thead>
 
     <tbody>
             <!-- posts is a Paginate object -->
             {% for post in posts.items %}
-                <script type="text/javascript">
-
-                    $(function() {
-                        $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ post.is_upvoted_by(g.user.id) }}, starred: {{ post.is_starred_by(g.user.id) }}, callback: callback});
-                    });
-
-                </script>
                 <tr>
                     <td><span class="index">{{ ((posts.prev_num) * posts_per_page) + loop.index }}.</span></td>
                     <td>
@@ -66,19 +55,42 @@
                             </div>
                         </div>
                     </td>
-                    <td>{{post.id}}</td>
-                    <td>{{post.title}}</td>
-                    <td><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">Link</a></td>
-                    <td>{{post.content}}</td>
-                    <td>{{post.author_id}}</td>
-                    <td>{{post.upvotes.count()}}</td>
-                    <td>{{post.timestamp}}</td>
-            </tr>
+
+                    <td class="upvotes">
+                        {{post.upvotes.count()}}
+                    </td>
+                    
+                    <td><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
+                    <td><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">Play</a></td>
+                </tr>
+                <tr>
+                    <td colspan="3"></td>
+                    <td colspan="2">
+                        {{post.author.nickname}}
+                        &nbsp--&nbsp   
+                        5 hours ago
+                    </td>
+                </tr>
         {% endfor %}
     </tbody>
 </table>
+
+
+
+{% for post in posts.items %}
+    <script type="text/javascript">
+
+        $(function() {
+            $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ post.is_upvoted_by(g.user.id) }}, starred: {{ post.is_starred_by(g.user.id) }}, callback: callback});
+        });
+
+    </script>
+{% endfor %}
+
+
 <div class="navigation">
 {% if posts.has_prev %}<a href="{{ url_for('index', page = posts.prev_num) }}"><< Newer posts</a>{% else %}<< Newer posts{% endif %} | 
 {% if posts.has_next %}<a class="next" href="{{ url_for('index', page = posts.next_num) }}">Older posts >></a>{% else %}Older posts >>{% endif %}
 </div>
+
 {% endblock %}
