@@ -1,0 +1,50 @@
+
+<table class="posts">
+    <tbody>
+            <!-- posts is a Paginate object -->
+            {% for post in posts.items %}
+                <tr>
+                    <td class="rank"><span class="index">{{ ((posts.prev_num) * posts_per_page) + loop.index }}.</span></td>
+                    <td class="vote">
+                        <div class="vote_group">
+                            <div class="upvote" id="group{{post.id}}">
+                                <a class="upvote"></a>
+                                <a class="star"></a>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="upvotes">
+                        {{post.upvotes.count()}}
+                    </td>
+                    
+                    <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
+                </tr>
+                <tr>
+                    <td colspan="3"></td>
+                    <td colspan="1">
+                        <a href="{{url_for('user', nickname = post.author.nickname)}}">{{post.author.nickname}}</a>
+                        5 hours ago
+                    </td>
+                </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% for post in posts.items %}
+    <script type="text/javascript">
+
+        $(function() {
+            $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ post.is_upvoted_by(g.user.id) }}, starred: {{ post.is_starred_by(g.user.id) }}, callback: callback});
+        });
+
+    </script>
+{% endfor %}
+
+
+<div class="navigation">
+{% if posts.has_prev %}<a href="{{ url_for('index', page = posts.prev_num) }}"><< Newer posts</a>{% else %}<< Newer posts{% endif %} | 
+{% if posts.has_next %}<a class="next" href="{{ url_for('index', page = posts.next_num) }}">Older posts >></a>{% else %}Older posts >>{% endif %}
+</div>

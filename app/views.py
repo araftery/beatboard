@@ -21,6 +21,19 @@ def index(page = 1):
         posts = posts,
         posts_per_page = POSTS_PER_PAGE)
 
+
+##############
+# New view #
+##############
+@app.route('/new', methods = ['GET'])
+@login_required
+def index(page = 1):
+    posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(db.func.count(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
+    return render_template('index.html',
+        title = 'New',
+        posts = posts,
+        posts_per_page = POSTS_PER_PAGE)
+
 ##################
 # Login Handlers #
 ##################
