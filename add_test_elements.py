@@ -15,7 +15,7 @@ for title, url in posts:
 	post = Post(title = title, content = '', song_url = url, timestamp = int(datetime.datetime.utcnow().strftime("%s")), author_id = 1)
 	db.session.add(post)
 
-	upvote = Upvote(voter_id = 1, post = post)
+	upvote = Upvote(voter_id = 1, post = post, post_author_id = post.author_id)
 	db.session.add(upvote)
 
 db.session.commit()

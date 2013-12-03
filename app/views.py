@@ -15,7 +15,6 @@ from config import POSTS_PER_PAGE
 @app.route('/index/<int:page>', methods = ['GET'])
 @login_required
 def index(page = 1):
-    #posts = Post.query.join(Post.upvotes).group_by(Post.id).paginate(page, POSTS_PER_PAGE, False)
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
     return render_template('index.html',
         title = 'Home',
@@ -129,7 +128,7 @@ def submit(title = '', url = ''):
         post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'].lower(), timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
         db.session.add(post)
 
-        upvote = Upvote(voter = g.user, post = post)
+        upvote = Upvote(voter = g.user, post = post, post_author_id = post.author_id)
         db.session.add(upvote)
 
         db.session.commit()

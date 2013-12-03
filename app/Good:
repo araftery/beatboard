@@ -1,0 +1,18 @@
+Good:
+	Upvotes
+	Favorites ("Starred")
+	Comments
+	User accounts
+	Sort by upvotes
+
+Better:
+	OpenID authentication (Google)
+	User profiles
+	Search
+	Basic admin area to manage posts
+
+Best/Stretch:
+	Sort using algorithm that takes into time and upvotes (using a cron)
+	Playing YouTube on page
+	Single Page App (music keeps playing from page to page)
+	Facebook Integration

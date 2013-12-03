@@ -29,7 +29,6 @@ class User(db.Model):
     last_seen = db.Column(db.Integer)
     time_registered = db.Column(db.Integer)
     posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
-    upvotes = db.relationship('Upvote', backref = 'voter', lazy = 'dynamic')
     stars = db.relationship('Star', backref = 'user', lazy = 'dynamic')
     #num_upvotes = upvotes.count()
 
@@ -44,6 +43,10 @@ class User(db.Model):
 
     def is_anonymous(self):
         return False
+
+    def num_upvotes(self):
+        num_upvotes = Upvote.query.filter(self.id == Upvote.post_author_id).count()
+        return num_upvotes
 
     def get_id(self):
         return unicode(self.id)
@@ -79,6 +82,7 @@ class Post(db.Model):
     num_upvotes = db.Column(db.Integer, default = 1)
     upvotes = db.relationship('Upvote', backref = 'post', lazy = 'dynamic')
     stars = db.relationship('Star', backref = 'post', lazy = 'dynamic')
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def is_upvoted_by(self, user_id):
         return self.upvotes.filter(Upvote.voter_id == user_id).count()
@@ -96,6 +100,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     content = db.Column(db.String(5000))
     timestamp = db.Column(db.Integer)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -117,3 +122,4 @@ class Upvote(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     voter_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    post_author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
