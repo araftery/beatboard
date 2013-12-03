@@ -123,6 +123,12 @@ def edit():
 def submit(title = '', url = ''):
     form = PostForm()
     if form.validate_on_submit():
+        existing_post = Post.query.filter(Post.song_url == url).first()
+        if (existing_post and Upvote.query.filter(Upvote.post_id == existing_post.id and Upvote.voter_id == g.user.id).count() == 0):
+            upvote = Upvote(voter = g.user, post = post)
+            db.session.add(upvote)
+            db.session.commit()
+    else:
         post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'].lower(), timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
         db.session.add(post)
 
