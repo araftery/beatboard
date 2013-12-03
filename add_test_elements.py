@@ -1,7 +1,9 @@
 #!/usr/bin/python
 from app import app, db
-from app.models import Post, Upvote, Star
+from app.models import Post, Upvote, Star, User
 import datetime
+
+user = User.query.first()
 
 posts = [
 		('Infinite Headbands (B.O.B. ft. 2 Chainz vs. Baauer & RL Grime)', 'https://soundcloud.com/quizzicalproductions/infinite-headbands-b-o-b-ft-2'),
@@ -12,7 +14,7 @@ posts = [
 		]
 
 for title, url in posts:
-	post = Post(title = title, content = '', song_url = url, timestamp = int(datetime.datetime.utcnow().strftime("%s")), author_id = 1)
+	post = Post(title = title, content = '', song_url = url, timestamp = int(datetime.datetime.utcnow().strftime("%s")), author_id = user.id)
 	db.session.add(post)
 
 	upvote = Upvote(voter_id = 1, post = post)
