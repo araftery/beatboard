@@ -33,10 +33,6 @@ class User(db.Model):
     stars = db.relationship('Star', backref = 'user', lazy = 'dynamic')
     upvote = db.relationship('Upvote', backref = 'voter', lazy = 'dynamic')
     comments  = db.relationship('Comment', backref='author', lazy = 'dynamic')
-    #num_upvotes = upvotes.count()
-
-    #upvotes = db.relationship('Upvote', backref = 'author', lazy = 'dynamic')
-    #posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
     def is_authenticated(self):
         return True
@@ -48,7 +44,9 @@ class User(db.Model):
         return False
 
     def num_upvotes(self):
-        num_upvotes = Upvote.query.filter(self.id == Upvote.post_author_id).count()
+        num_upvotes = 0
+        for post in self.posts:
+            num_upvotes += post.upvotes
         return num_upvotes
 
     def avg_karma(self):
@@ -131,4 +129,3 @@ class Upvote(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     voter_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    post_author_id = db.Column(db.Integer)

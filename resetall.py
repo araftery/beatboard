@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from app import app, db
 from app.models import Post, User, Upvote, Star, Comment
 
