@@ -98,7 +98,7 @@ class Post(db.Model):
             return 0
 
     def is_starred_by(self, user_id):
-        if self.stars.filter(Star.user_id == user_id).count() > 0
+        if self.stars.filter(Star.user_id == user_id).count() > 0:
             return 1
         else:
             return 0
