@@ -99,7 +99,25 @@ table.posts td:first-child
 
 
 /* === Upvote/Star === */
-table.posts td:nth-child(2)
+table.posts td.vote
 {
-	width:20px;
+	width:30px;
+}
+
+table.posts td.vote .count
+{
+	margin:5px 0 5px 0;
+	text-align:center;
+}
+
+table.posts td.vote .count
+{
+	position:relative;
+	top:2px;
+}
+
+table.posts td.vote
+{
+	position:relative;
+	top:6px;
 }

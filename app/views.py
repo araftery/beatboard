@@ -212,6 +212,12 @@ def vote(post_id, upvoted, starred):
         db.session.commit()
         return jsonify({'id': post_id, 'upvoted': result_upvoted, 'starred': result_starred})
 
+@app.route('/comments/<int:post_id>')
+@login_required
+def comments(post_id):
+    post = Post.query.get(post_id)
+    return render_template('comments.html', post = post)
+
 @app.route('/test')
 def test():
     return render_template('test.html')
