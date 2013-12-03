@@ -53,3 +53,15 @@ table.posts td:nth-child(2)
 {
 	margin-top:25px;
 }
+
+.logo
+{
+	text-align: center;
+	padding: 5px;
+}
+
+.navbar-search
+{
+	line-height:25px;
+	margin:10px 10px 0 0;
+}

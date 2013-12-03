@@ -59,21 +59,21 @@ set navigation_bar = [
   </head>
   <body>
     <div class="container">
-        <div class="navbar navbar-inverse">
-            <div class="navbar-header">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-collapse-01"></button>
-            </div>    
-
-            <div class="navbar-collapse collapse navbar-collapse-01">
+        <div class="navbar navbar-inverse">  
+            <div class="navbar-inner">
                 <ul class="nav navbar-nav navbar-left">
+                    <li class="logo"><img height="40" src="/static/img/logo_white.png"></img></li>
                     {% for href, id, name in navigation_bar %}
                         <li{% if id == active_page %} class="active"{% endif %}>
                             <a href="{{ href|e }}">{{ name|e }}</a>
                         </li>
                     {% endfor %}
                 </ul>
-            </div>
             <!-- ./menu-items -->
+                <form class="navbar-search pull-right">
+                  <input type="text" class="search-query" placeholder="Search">
+                </form>
+        </div>
         </div>
         <!-- /.navbar -->
 

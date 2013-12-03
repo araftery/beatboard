@@ -2872,8 +2872,8 @@ fieldset[disabled] .form-control + .input-icon,
 .todo-search {
   position: relative;
   background: #2980b9;
-  background-size: 16px 16px;
-  border-radius: 6px 6px 0 0;
+  background-size: 12px 16px;
+  border-radius: 0px 0px 0 0;
   color: #34495e;
   padding: 19px 25px 20px;
 }
