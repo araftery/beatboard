@@ -11,7 +11,7 @@
                     </div>
                 </td>
                 
-                <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
+                <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.lower().find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
             </tr>
             <tr>
                 <td colspan="1"></td>
