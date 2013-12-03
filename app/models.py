@@ -46,7 +46,7 @@ class User(db.Model):
     def num_upvotes(self):
         num_upvotes = 0
         for post in self.posts:
-            num_upvotes += post.upvotes
+            num_upvotes += post.upvotes.count()
         return num_upvotes
 
     def avg_karma(self):
