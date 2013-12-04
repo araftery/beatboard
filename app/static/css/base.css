@@ -30,6 +30,8 @@ html, body {
 
 .navbar
 {
+	border-radius: 0 !important;
+	margin-bottom:50px;
 }
 
 .logo
