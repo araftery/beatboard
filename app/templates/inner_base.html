@@ -1,0 +1,12 @@
+{% if not template_to_load %}
+<script>
+    $('a:not(.ignore)').click(function (){
+        var title = 'BeatBoard'
+        var href = $(this).attr('href');
+        load_page(href, title);
+        return false;
+    });
+</script>
+{% endif %}
+
+{% block inner %}{% endblock %}

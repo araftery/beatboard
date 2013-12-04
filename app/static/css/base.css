@@ -157,3 +157,7 @@ table.posts td
 	line-height:20px;
 	margin:13px 15px 0 0;
 }
+
+a { 
+	cursor: pointer !important; 
+}

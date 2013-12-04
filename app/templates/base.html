@@ -12,8 +12,7 @@
     ('/', 'index', 'Top'),
     ('/new', 'new', 'New'),
     ('/submit', 'submit', 'Submit'),
-    (profile_link, 'user', 'Profile'),
-    ('/logout', 'logout', 'Logout')
+    (profile_link, 'user', 'Profile')
     ]
 -%}
 <!DOCTYPE html>
@@ -56,10 +55,23 @@
 
     <!-- required -->
     <script src="/static/js/lib/jquery.upvote.js"></script>
-    <script type="text/javascript" src="http://stratus.sc/stratus.js"></script>
 
-    <!-- custom functions -->
-    <script src="/static/js/base.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $.stratus({
+          auto_play: false,
+          links: 'http://soundcloud.com/m83',
+          theme: 'http://stratus.sc/themes/dark.css',
+          random: true
+        });
+      });
+</script>
+
+<!-- custom functions -->
+<script src="/static/js/base.js"></script>
+<script type="text/javascript" src="/static/js/lib/stratus.js"></script>
+
 
 
 
@@ -78,47 +90,28 @@
                     <li class="logo"><img height="40" src="/static/img/logo_white.png"></img></li>
                     {% for href, id, name in navigation_bar %}
                         <li{% if id == active_page %} class="active"{% endif %}>
-                            <a href="{{ href|e }}">{{ name|e }}</a>
+                            <a class="ignore" data-title="{{name}}" data-href="{{ href|e }}">{{ name|e }}</a>
                         </li>
                     {% endfor %}
+                        <li>
+                            <a class="ignore" href="/logout">Logout</a>
+                        </li>
                 </ul>
             <!-- ./menu-items -->
-                <form name="search_form" method="post" action="/search" class="navbar-search pull-right">
-                    {{g.search_form.hidden_tag()}}
-                    {{ g.search_form.search(class_='search-query', value = query) }}
+                <form name="search_form" class="navbar-search pull-right" id="search_form">
+                    <input type="text" class="search_query" value="{{ query }}" />
                 </form>
+            </div>
         </div>
-        </div>
-        <!-- /.navbar -->
+        <!-- /.navbar --> 
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-            {% if not category or category == 'message' %}
-                {% set category = 'info' %}
-            {% endif %}
-
-            <div class="alert alert-{{category}}">{{ message }} </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}   
-
-    {% block content %}{% endblock %}
+    <div id="block">
+        {% block content %}{% endblock %}
+    </div>
 
     <div class="push"></div>
+</div>
     <!-- /.container -->
 
-  </body>
+</body>
 </html>
-{% if g.user.is_authenticated() %}
-<script type="text/javascript">
-      $(document).ready(function(){
-        $.stratus({
-          auto_play: false,
-          links: 'http://soundcloud.com/m83',
-          theme: 'http://stratus.sc/themes/dark.css',
-          random: true
-        });
-      });
-</script>
-{% endif %}

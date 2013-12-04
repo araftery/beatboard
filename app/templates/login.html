@@ -1,8 +1,5 @@
 <!-- extend base layout -->
-{% extends "base.html" %}
 {% set active_page = 'login' -%}
-
-{% block content %}
 <script type="text/javascript">
 function set_openid(openid, pr)
 {
@@ -33,4 +30,3 @@ function set_openid(openid, pr)
     <p>{{form.remember_me}} Remember Me</p>
     <p><input type="submit" value="Sign In"></p>
 </form>
-{% endblock %}

@@ -1,16 +1,44 @@
-<!-- extend base layout -->
-{% extends "base.html" %}
-{% set active_page = 'submit' -%}
+{% include "inner.html" %}
 
-{% block content %}
+
+<!-- extend base layout -->
+{% set active_page = 'submit' -%}
+<script>
+    $(function() {
+        $('#submit_form').submit(function() {
+            var postData = $('#submit_form').serializeArray();
+            var formURL = '/submit';
+            $.ajax(
+            {
+                url : formURL,
+                type: "POST",
+                data : postData,
+                success:function(data, textStatus, jqXHR) 
+                {
+                    var title = 'Submitted';
+                    window.history.pushState("Updating URL to " + title, title, '/');
+                    $('#block').html(data);
+                    console.log(data)
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    var title = 'Error';
+                    window.history.pushState("Updating URL to " + title, title, '/submit');
+                    $('#block').html(data);   
+                }
+            });
+            return false;
+        });
+    });
+    </script>
 <h1>Submit a Song</h1>
-<form action="" method="post" name="login">
+<form id="submit_form" name="submit_form" method="post">
     {{form.hidden_tag()}}
     <p> Title: {{form.title(size=80, value=title)}} </p>
     <p> URL to Song: {{form.song_url(size=80, value=url)}} </p>
     <p> Description: {{form.content}} </p>
      
-    {% if form.errors %}
+    {% if form.errors and not hide_errors %}
     <ul class="errors">
         {% for field_name, field_errors in form.errors|dictsort if field_errors %}
             {% for error in field_errors %}
@@ -19,8 +47,7 @@
         {% endfor %}
     </ul>
     {% endif %}
-
+    {{form.submitted_field}}
 <br>
     <p><input type="submit" value="Submit"></p>
 </form>
-{% endblock %}

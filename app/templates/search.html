@@ -1,12 +1,11 @@
-<!-- extend base layout -->
-{% extends "base.html" %}
-{% set active_page = 'search' -%}
+{% include "inner.html" %}
 
-{% block content %}
+
+<!-- extend base layout -->
+{% set active_page = 'search' -%}
 <h1>Searching for: <em>{{ query }}</em></h1>
 {% if posts.items %}
 {% include "posts.html" %}
 {% else %}
 <div class="alert alert-warning">Sorry! There were no results for your query.</div>
 {% endif %}
-{% endblock %}

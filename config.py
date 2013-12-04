@@ -14,4 +14,4 @@ OPENID_PROVIDERS = [
 SQLALCHEMY_DATABASE_URI = 'postgresql://jharvard:crimson@localhost/cs50_project'
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
-POSTS_PER_PAGE = 25
+POSTS_PER_PAGE = 10

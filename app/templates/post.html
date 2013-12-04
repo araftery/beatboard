@@ -11,13 +11,13 @@
                     </div>
                 </td>
                 
-                <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.lower().find('soundcloud') != -1 else '' }}">{{post.title}}</a></td>
+                <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus ignore' if post.song_url.lower().find('soundcloud') != -1 else 'ignore' }}">{{post.title}}</a></td>
             </tr>
             <tr>
                 <td colspan="1"></td>
                 <td colspan="1">
                     <a href="{{url_for('user', nickname = post.author.nickname)}}">{{post.author.nickname}}</a> | 
-                    <script type="text/javascript">document.write(moment('{{ post.timestamp }}', 'X').fromNow());</script> | 
+                        <span id="time{{ post.id }}"><script type="text/javascript">$('#time{{ post.id }}').html(moment('{{ post.timestamp }}', 'X').fromNow());</script></span> | 
                     <a href="{{url_for('comments', post_id = post.id)}}">Comments ({{post.comments.count()}})</a>
                 </td>
             </tr>

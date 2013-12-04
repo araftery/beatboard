@@ -3,34 +3,48 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, lm, oid
 from forms import LoginForm
 from datetime import datetime
-from forms import LoginForm, EditForm, PostForm, SearchForm
+from forms import LoginForm, EditForm, PostForm
 from models import User, ROLE_USER, ROLE_ADMIN, Post, Upvote, Star
 from config import POSTS_PER_PAGE
 
 ##############
 # Index view #
 ##############
-@app.route('/', methods = ['GET'])
-@app.route('/index', methods = ['GET'])
-@app.route('/index/<int:page>', methods = ['GET'])
+@app.route('/', methods = ['GET', 'POST'])
+@app.route('/index', methods = ['GET', 'POST'])
+@app.route('/index/<int:page>', methods = ['GET', 'POST'])
 @login_required
 def index(page = 1):
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
-    return render_template('index.html',
-        title = 'Home',
-        posts = posts,
-        posts_per_page = POSTS_PER_PAGE)
+
+    if request.method == 'GET':
+        return render_template('first.html',
+            method = request.method,
+            template_to_load = 'index.html',
+            title = 'Home',
+            posts = posts,
+            posts_per_page = POSTS_PER_PAGE)
+    else:
+        return render_template('index.html',
+            method = request.method,
+            title = 'Home',
+            posts = posts,
+            posts_per_page = POSTS_PER_PAGE)
 
 
 
 ##############
 # New view #
 ##############
-@app.route('/new', methods = ['GET'])
+@app.route('/new', methods = ['GET', 'POST'])
 @login_required
 def new(page = 1):
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
-    return render_template('new.html', title = 'New', posts = posts, posts_per_page = POSTS_PER_PAGE)
+    if request.method == 'GET':
+        return render_template('first.html', method = request.method, template_to_load = 'new.html', title = 'New', posts = posts, posts_per_page = POSTS_PER_PAGE)
+    else:
+        return render_template('new.html', method = request.method, title = 'New', posts = posts, posts_per_page = POSTS_PER_PAGE)
+
 
 ##################
 # Login Handlers #
@@ -84,7 +98,6 @@ def before_request():
         g.user.last_seen = int(datetime.utcnow().strftime("%s"))
         db.session.add(g.user)
         db.session.commit()
-    g.search_form = SearchForm()
 
 ##########
 # Logout #
@@ -97,26 +110,33 @@ def logout():
 #####################
 # User Profile Page #
 #####################
-@app.route('/user/<nickname>/<int:page>')
-@app.route('/user/<nickname>')
+@app.route('/user/<nickname>/<int:page>', methods = ['GET', 'POST'])
+@app.route('/user/<nickname>', methods = ['GET', 'POST'])
 @login_required
 def user(nickname, page = 1):
     user = User.query.filter_by(nickname = nickname).first()
     if user == None:
         flash('User ' + nickname + ' not found.', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('index'), code=307)
 
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.author_id == user.id).order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
 
-    return render_template('user.html',
-        user = user,
-        no_show_rank = True,
-        posts = posts)
+    if request.method == 'GET':
+        return render_template('first.html',
+            template_to_load = 'user.html',
+            user = user,
+            no_show_rank = True,
+            posts = posts)
+    else:
+        return render_template('user.html',
+            user = user,
+            no_show_rank = True,
+            posts = posts)
 
 #####################
 # Edit Profile Page #
 #####################
-@app.route('/edit', methods = ['GET', 'POST'])
+@app.route('/edit', methods = ['POST'])
 @login_required
 def edit():
     form = EditForm()
@@ -126,34 +146,46 @@ def edit():
         db.session.add(g.user)
         db.session.commit()
         flash('Your changes have been saved.', 'success')
-        return redirect(url_for('user', nickname = g.user.nickname))
-    else:
-        form.nickname.data = g.user.nickname
-        form.about_me.data = g.user.about_me
-        return render_template('edit.html', form = form)
+        return redirect(url_for('user', nickname = g.user.nickname), code=307)
+#    else:
+#      form.nickname.data = g.user.nickname
+#        form.about_me.data = g.user.about_me
+#        return render_template('edit.html', form = form)
 
 
 
 ##########
 # Search #
 ##########
-@app.route('/search/<int:page>', methods = ['GET', 'POST'])
-@app.route('/search', methods = ['GET', 'POST'])
+@app.route('/search/<query>/<int:page>', methods = ['GET', 'POST'])
+@app.route('/search/<query>', methods = ['GET', 'POST'])
 @login_required
-def search(page = 1):
-    form = SearchForm()
-    if form.validate_on_submit():
-        query = '%{0}%'.format(request.form['search'])
+def search(query = '', page = 1):
+        if query == '':
+            flash('Sorry, you cannot enter a blank search query.', 'danger')
+            if request.method == 'GET':
+                return redirect(url_for('index'), code=307)
+            else:
+                return redirect(url_for('index'), code=307)
+        query_show = query
+        query = '%{0}%'.format(query)
         posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.title.ilike(query)).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
-        return render_template('search.html',
-            no_show_rank = True,
-            posts = posts,
-            query = request.form['search'],
-            page = page,
-            posts_per_page = POSTS_PER_PAGE)
-    else:
-        flash('Sorry, you cannot enter a blank search query.', 'danger')
-        return redirect(url_for('index'))
+        
+        if request.method == 'GET':
+            return render_template('first.html',
+                template_to_load = 'search.html',
+                no_show_rank = True,
+                posts = posts,
+                query = query_show,
+                page = page,
+                posts_per_page = POSTS_PER_PAGE)
+        else:
+            return render_template('search.html',
+                no_show_rank = True,
+                posts = posts,
+                query = query_show,
+                page = page,
+                posts_per_page = POSTS_PER_PAGE)  
 
 
 
@@ -172,6 +204,7 @@ def submit(title = '', url = ''):
             url = url.replace('https:/', 'https://')
             
     form = PostForm()
+    
     if form.validate_on_submit():
         existing_post = Post.query.filter(Post.song_url.ilike('%{0}%'.format(form.data['song_url']))).first()
         if (existing_post is not None):
@@ -181,10 +214,10 @@ def submit(title = '', url = ''):
                 db.session.commit()
 
                 flash("A duplicate post exists. An upvote has automatically been added to the post.", 'info')
-                return redirect(url_for('index'))
+                return redirect(url_for('index'), code=307)
             else:
                 flash("You have already upvoted a duplicate post.", 'danger')
-                return redirect(url_for('index'))
+                return redirect(url_for('index'), code=307)
         else:
             post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'], timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
             db.session.add(post)
@@ -195,14 +228,27 @@ def submit(title = '', url = ''):
             db.session.commit()
 
             flash('Your post is now live!', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('index'), code=307)
+    elif request.method == 'GET':
+        return render_template('first.html', template_to_load = 'submit.html', form = form, title = title, url = url)
     else:
-        return render_template('submit.html', form = form, title = title, url = url)
+
+        # if it was POST, but not a submit, don't show errors
+        try:
+            if form.data['submitted_field'] == 'true':
+                hide_errors = False
+            else:
+                hide_errors = True
+        except KeyError:
+            hide_errors = True
+
+        return render_template('submit.html', form = form, title = title, url = url, hide_errors = hide_errors)
+
 
 ################
 # Vote Handler #
 ################
-@app.route('/vote/<int:post_id>/<int:upvoted>/<int:starred>', methods = ['GET'])
+@app.route('/vote/<int:post_id>/<int:upvoted>/<int:starred>', methods = ['GET', 'POST'])
 @login_required
 def vote(post_id, upvoted, starred):
     if post_id == None or upvoted == None or starred == None:
@@ -245,12 +291,11 @@ def vote(post_id, upvoted, starred):
         db.session.commit()
         return jsonify({'id': post_id, 'upvoted': result_upvoted, 'starred': result_starred})
 
-@app.route('/comments/<int:post_id>')
+@app.route('/comments/<int:post_id>', methods = ['GET', 'POST'])
 @login_required
 def comments(post_id):
     post = Post.query.get(post_id)
-    return render_template('comments.html', post = post)
-
-@app.route('/test')
-def test():
-    return render_template('test.html')
+    if request.method == 'GET':
+        return render_template('first.html', template_to_load = 'comments.html', post = post)
+    else:
+        return render_template('comments.html', post = post)
