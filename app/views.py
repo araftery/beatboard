@@ -109,7 +109,15 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
 
-    g.top_url = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.song_url.ilike('%soundcloud.com%')).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).first().song_url
+
+    posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.song_url.ilike('%soundcloud.com%')).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).limit(20)
+    post_string = ''
+    for (index, post) in enumerate(posts):
+        if index == 0:
+            post_string += post.song_url
+        else:
+            post_string += ',' + post.song_url
+    g.top_20_list = post_string
 
 
 ##########
