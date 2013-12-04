@@ -3,7 +3,9 @@
 {% set active_page = 'index' -%}
 
 {% block content %}
-
+{% if posts.items %}
 {% include "posts.html" %}
-
+{% else %}
+<div class="alert alert-info">Sorry! There are no posts to display!</div>
+{% endif %}
 {% endblock %}
