@@ -37,7 +37,6 @@ $(function() {
                 data: { 'ajax': 'true' },
                 success:function(result) {
                             $("#block").html(result);
-                            console.log(result);
                         }
             }
             );
@@ -50,8 +49,20 @@ $(function() {
         load_page(href, title);
         return false;
     });
+
+    $(window).on("navigate", function (event, data) {
+        alert('navigate');
+      var direction = data.state.direction;
+      if (direction == 'back') {
+            console.log(data)
+            alert('back');
+      }
+      if (direction == 'forward') {
+        // do something else
+      }
+    });
     
-$(document).on("click", 'a:not(.ignore)', function(event) { 
+$(document).on("click", 'a:not(.ignore, .upvote, .star)', function(event) { 
         event.preventDefault(); 
         var title = 'BeatBoard'
         var href = $(this).attr('href');

@@ -161,3 +161,7 @@ table.posts td
 a { 
 	cursor: pointer !important; 
 }
+
+.navigation {
+	margin-top:20px;
+}

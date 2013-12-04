@@ -10,12 +10,22 @@ from config import POSTS_PER_PAGE
 ##############
 # Index view #
 ##############
+def select_top(limit = None):
+    posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc())
+
+    if limit != None:
+        posts = posts.limit(limit)
+
+    return posts
+
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/index', methods = ['GET', 'POST'])
 @app.route('/index/<int:page>', methods = ['GET', 'POST'])
 @login_required
 def index(page = 1):
-    posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
+    posts = select_top()
+    
+    posts = posts.paginate(page, POSTS_PER_PAGE, False)
 
     if request.method == 'GET':
         return render_template('first.html',
@@ -98,6 +108,9 @@ def before_request():
         g.user.last_seen = int(datetime.utcnow().strftime("%s"))
         db.session.add(g.user)
         db.session.commit()
+
+    g.top_url = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.song_url.ilike('%soundcloud.com%')).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).first().song_url
+
 
 ##########
 # Logout #
@@ -299,3 +312,17 @@ def comments(post_id):
         return render_template('first.html', template_to_load = 'comments.html', post = post)
     else:
         return render_template('comments.html', post = post)
+
+
+
+# Source: https://coderwall.com/p/4zcoxa
+import urllib
+from markupsafe import Markup
+
+@app.template_filter('urlencode')
+def urlencode_filter(s):
+    if type(s) == 'Markup':
+        s = s.unescape()
+    s = s.encode('utf8')
+    s = urllib.quote_plus(s)
+    return Markup(s)
