@@ -74,7 +74,7 @@ table.posts tr:nth-child(even) td
 	font-size: 12px;
 	font-style: italic;
 	text-align:left;
-	padding-bottom:10px !important;
+	padding-bottom:0px !important;
 }
 
 table.posts td
