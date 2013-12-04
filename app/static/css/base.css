@@ -121,3 +121,27 @@ table.posts td.vote
 	position:relative;
 	top:6px;
 }
+
+.search-query
+{
+	text-decoration:none;
+	border:0;
+	padding:3px 28px 3px 10px !important;
+	width:200px;
+	color:white;
+	background:url("/static/img/search-white.png") 95% 5px #3498DB no-repeat;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #fff;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #fff;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #fff;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #fff;
+}
+

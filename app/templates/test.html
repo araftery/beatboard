@@ -1,24 +1,8 @@
-{% 
+{% extends "base.html" %}
+{% block content %}
 
-set test_list = [
-				('this', 'is', 'a', 'test'),
-				('this', 'is', 'also', 'a test'),
-				('this', 'is', 'a', 'test too')
-				] 
+<form class="navbar-search pull-right">
+	<input type="text" class="search-query" placeholder="Search">
+</form>
 
--%}
-
-
-{% for element1, element2, element3, element4 in test_list %}
-
-<b>
-Group:<br />
-{% if element1 == element2 %}
-Element 1: {{ element1 }}<br />
-Element 2: {{ element2 }}<br />
-Element 3: {{ element3 }}<br />
-Element 4: {{ element4 }}<br />
-</b>
-{% endif %}
-<hr>
-{% endfor %}
+{% endblock %}
