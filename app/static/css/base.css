@@ -41,7 +41,13 @@ body
 .logo
 {
 	text-align: center;
-	padding: 5px 15px;
+	/* padding: 5px 15px !important;*/
+	padding: 0px;
+	margin: 0px;
+}
+
+.logo > a {
+	padding: 5px !important;
 }
 
 /* === POSTS TABLE === */
@@ -128,7 +134,7 @@ table.posts td
 	font-size:16px;
 }
 
-.search-query
+.search_query
 {
 	text-decoration:none;
 	border:0;
@@ -136,6 +142,8 @@ table.posts td
 	width:200px;
 	color:white;
 	background:url("/static/img/search-white.png") 95% 5px #3498DB no-repeat;
+
+	border-radius: 7px !important;
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */
