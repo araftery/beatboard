@@ -14,3 +14,6 @@ class PostForm(Form):
     content = TextAreaField('content', validators = [Length(min = 0, max = 1000)])
     title = TextField('title', validators = [Required()])
     song_url = TextField('song_url', validators = [Required(), URL()])
+
+class SearchForm(Form):
+	search = TextField('query', validators = [Required()])

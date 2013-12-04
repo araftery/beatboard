@@ -3,7 +3,7 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, lm, oid
 from forms import LoginForm
 from datetime import datetime
-from forms import LoginForm, EditForm, PostForm
+from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_USER, ROLE_ADMIN, Post, Upvote, Star
 from config import POSTS_PER_PAGE
 
@@ -84,6 +84,7 @@ def before_request():
         g.user.last_seen = int(datetime.utcnow().strftime("%s"))
         db.session.add(g.user)
         db.session.commit()
+    g.search_form = SearchForm()
 
 ##########
 # Logout #
@@ -131,6 +132,32 @@ def edit():
         form.about_me.data = g.user.about_me
         return render_template('edit.html', form = form)
 
+
+
+##########
+# Search #
+##########
+@app.route('/search/<int:page>', methods = ['GET', 'POST'])
+@app.route('/search', methods = ['GET', 'POST'])
+@login_required
+def search(page = 1):
+    form = SearchForm()
+    if form.validate_on_submit():
+        query = '%{0}%'.format(request.form['search'])
+        posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.title.ilike(query)).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
+        return render_template('search.html',
+            no_show_rank = True,
+            posts = posts,
+            query = request.form['search'],
+            page = page,
+            posts_per_page = POSTS_PER_PAGE)
+    else:
+        flash('Sorry, you cannot enter a blank search query.', 'danger')
+        return redirect(url_for('index'))
+
+
+
+
 ###############
 # Submit View #
 ###############
@@ -146,9 +173,7 @@ def submit(title = '', url = ''):
             
     form = PostForm()
     if form.validate_on_submit():
-        #existing_post = db.query.where('post').filter(Post.song_url == form.data['song_url']).first()
         existing_post = Post.query.filter(Post.song_url.ilike('%{0}%'.format(form.data['song_url']))).first()
-        #existing_post = Post.query.select.where(Post.song_url.ilike(form.data['song_url'])).first()
         if (existing_post is not None):
             if not existing_post.is_upvoted_by(g.user.id):
                 upvote = Upvote(voter = g.user, post_id = existing_post.id)

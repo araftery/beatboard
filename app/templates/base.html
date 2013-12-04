@@ -4,6 +4,10 @@
 {% set profile_link = '/' %}
 {% endif %}
 
+{% if not query %}
+{% set query = '' %}
+{% endif %}
+
 {% set navigation_bar = [
     ('/', 'index', 'Top'),
     ('/new', 'new', 'New'),
@@ -79,8 +83,9 @@
                     {% endfor %}
                 </ul>
             <!-- ./menu-items -->
-                <form class="navbar-search pull-right">
-                  <input type="text" class="search-query">
+                <form name="search_form" method="post" action="/search" class="navbar-search pull-right">
+                    {{g.search_form.hidden_tag()}}
+                    {{ g.search_form.search(class_='search-query', value = query) }}
                 </form>
         </div>
         </div>

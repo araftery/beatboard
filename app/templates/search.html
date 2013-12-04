@@ -1,0 +1,8 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+{% set active_page = 'search' -%}
+
+{% block content %}
+<h1>Searching for: <em>{{ query }}</em></h1>
+{% include "posts.html" %}
+{% endblock %}

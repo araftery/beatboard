@@ -39,12 +39,6 @@ html, body {
 	padding: 5px;
 }
 
-.navbar-search
-{
-	line-height:20px;
-	margin:12px 15px 0 0;
-}
-
 /* === POSTS TABLE === */
 
 table.posts tr td.upvotes
@@ -145,3 +139,9 @@ table.posts td.vote
     color:    #fff;
 }
 
+
+.navbar-search
+{
+	line-height:20px;
+	margin:13px 15px 0 0;
+}
