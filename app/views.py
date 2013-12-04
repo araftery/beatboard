@@ -138,8 +138,12 @@ def edit():
 @app.route('/submit/<title>/<path:url>', methods = ['GET', 'POST'])
 @login_required
 def submit(title = '', url = ''):
-    if (url.find('ttp://') == -1):
-        url = url.replace('ttp:/', 'ttp://')
+    if (url.find('://') == -1):
+        if (url.find('https') == -1):
+            url = url.replace('http:/', 'http://')
+        else:
+            url = url.replace('https:/', 'https://')
+            
     form = PostForm()
     if form.validate_on_submit():
         #existing_post = db.query.where('post').filter(Post.song_url == form.data['song_url']).first()
