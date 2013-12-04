@@ -30,7 +30,7 @@ html, body {
 
 .navbar
 {
-	margin-top:25px;
+	position:fixed;
 }
 
 .logo
