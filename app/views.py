@@ -135,9 +135,11 @@ def edit():
 # Submit View #
 ###############
 @app.route('/submit', methods = ['GET', 'POST'])
-@app.route('/submit/<title>/<url>', methods = ['GET', 'POST'])
+@app.route('/submit/<title>/<path:url>', methods = ['GET', 'POST'])
 @login_required
 def submit(title = '', url = ''):
+    if (url.index('ttp://') == -1)
+        url = url.replace('ttp:/', 'ttp://')
     form = PostForm()
     if form.validate_on_submit():
         #existing_post = db.query.where('post').filter(Post.song_url == form.data['song_url']).first()
