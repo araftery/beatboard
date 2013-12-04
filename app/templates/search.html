@@ -4,5 +4,9 @@
 
 {% block content %}
 <h1>Searching for: <em>{{ query }}</em></h1>
+{% if posts.items %}
 {% include "posts.html" %}
+{% else %}
+<div class="alert alert-warning">Sorry! There were no results for your query.</div>
+{% endif %}
 {% endblock %}
