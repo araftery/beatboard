@@ -138,7 +138,7 @@ def edit():
 @app.route('/submit/<title>/<path:url>', methods = ['GET', 'POST'])
 @login_required
 def submit(title = '', url = ''):
-    if (url.index('ttp://') == -1)
+    if (url.index('ttp://') == -1):
         url = url.replace('ttp:/', 'ttp://')
     form = PostForm()
     if form.validate_on_submit():
