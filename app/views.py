@@ -141,7 +141,8 @@ def submit(title = '', url = ''):
     form = PostForm()
     if form.validate_on_submit():
         #existing_post = db.query.where('post').filter(Post.song_url == form.data['song_url']).first()
-        existing_post = Post.query.select.where(Post.song_url.ilike(form.data['song_url'])).first()
+        existing_post = Post.query.filter(Post.song_url.ilike('%{0}%'.format(form.data['song_url']))).first()
+        #existing_post = Post.query.select.where(Post.song_url.ilike(form.data['song_url'])).first()
         if (existing_post is not None):
             if not existing_post.is_upvoted_by(g.user.id):
                 upvote = Upvote(voter = g.user, post_id = existing_post.id)
