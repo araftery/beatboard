@@ -1,7 +1,7 @@
 span.index
 {
 	position:relative;
-	bottom:0px;
+	bottom:3px;
 	height:20px;
 	line-height:20px;
 	vertical-align: bottom;
@@ -60,8 +60,10 @@ table.posts
 
 table.posts tr:nth-child(odd) td
 {
-	padding-bottom: -10px !important;
+	position:relative;
+	bottom:-10px;
 }
+
 table.posts tr:nth-child(even) td
 {
 	font-size: 12px;
@@ -113,7 +115,12 @@ table.posts td.vote .count
 table.posts td.vote
 {
 	position:relative;
-	top:6px;
+	top:13px;
+}
+
+table.posts td
+{
+	font-size:16px;
 }
 
 .search-query
