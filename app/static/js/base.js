@@ -41,7 +41,7 @@ $(function() {
             }
             );
     }
-    $('ul.nav li a').click(function (){
+    $("ul.nav li a:not(.logout)".click(function (){
         var title = $(this).data('title');
         var href = $(this).data('href');
         $('ul.nav li').removeClass('active')
