@@ -31,13 +31,17 @@ html, body {
 .navbar
 {
 	border-radius: 0 !important;
-	margin-bottom:50px;
+}
+
+body 
+{
+	padding:60px;
 }
 
 .logo
 {
 	text-align: center;
-	padding: 5px;
+	padding: 5px 15px;
 }
 
 /* === POSTS TABLE === */
