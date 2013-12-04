@@ -135,7 +135,7 @@ def edit():
 # Submit View #
 ###############
 @app.route('/submit', methods = ['GET', 'POST'])
-@app.route('/submit/<title>/<path:url>', methods = ['GET', 'POST'])
+@app.route('/submit/<title>/<url>', methods = ['GET', 'POST'])
 @login_required
 def submit(title = '', url = ''):
     form = PostForm()
