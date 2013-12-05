@@ -282,3 +282,8 @@ textarea.depth-0
 	text-align:right;
 	vertical-align:bottom;
 }
+
+.center, #login
+{
+	text-align:center;
+}

@@ -3,7 +3,7 @@ from wtforms import TextField, BooleanField, TextAreaField, HiddenField
 from wtforms.validators import Required, Length, URL
 
 class LoginForm(Form):
-    openid = TextField('openid', validators = [Required()])
+    openid = HiddenField('openid', validators = [Required()])
     remember_me = BooleanField('remember_me', default = False)
 
 class EditForm(Form):
