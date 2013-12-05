@@ -11,7 +11,7 @@
 {% set navigation_bar = [
     ('/', 'index', 'Top'),
     ('/new', 'new', 'New'),
-    ('/submit', 'submit', 'Submit'),
+    ('/submit', 'submit', 'Submit')
     (profile_link, 'user', 'Profile')
     ]
 -%}
@@ -97,7 +97,11 @@
                             <a class="ignore" data-title="{{name}}" data-href="{{ href|e }}">{{ name|e }}</a>
                         </li>
                     {% endfor %}
-                        {% if g.user.id %}
+                        {% if g.user.is_authenticated() %}
+                        <li>
+                            <a class="ignore" data-title="url" data-href="{{url_for('user', nickname=g.user.nickname}}">Profile</a>
+                        </li>
+
                         <li>
                             <a class="ignore logout" href="/logout">Logout</a>
                         </li>
