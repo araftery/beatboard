@@ -146,19 +146,6 @@ table.posts td
 	border-radius: 7px !important;
 }
 
-::-webkit-input-placeholder { /* WebKit browsers */
-    color:    #fff;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color:    #fff;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color:    #fff;
-}
-:-ms-input-placeholder { /* Internet Explorer 10+ */
-    color:    #fff;
-}
-
 
 .navbar-search
 {
@@ -172,4 +159,126 @@ a {
 
 .navigation {
 	margin-top:20px;
+}
+
+
+/* ===== Comments ===== */
+
+.comments
+{
+	margin-top:20px;
+}
+
+.comment
+{
+	background:#e2f6ff;
+	width:98%;
+	display:block;
+	margin-top:20px;
+	padding:2%;
+	font-size:18px;
+}
+
+.comment .right
+{
+	float:left;
+	text-align:justify;
+	vertical-align:top;
+	width:87%;
+	padding:0;
+	margin:0;
+}
+
+.comment .top
+{
+	display:block;
+}
+
+.comment .avatar-container
+{
+	border:0;
+	float:left;
+}
+
+.comment .top .content
+{
+	width:100%;
+	margin-left:3%;
+}
+
+.comment .bottom
+{
+	margin-left:6%;
+}
+
+.comment .bottom .author, .comment .bottom .time
+{
+	font-size:12px;
+}
+
+.clearfix
+{
+	clear:both;
+}
+
+.depth-1
+{
+	margin-left:7%;
+	width:91%;
+}
+
+.depth-2
+{
+	margin-left:14%;
+	width:84%;
+}
+
+.depth-3
+{
+	margin-left:21%;
+	width:77%;
+}
+
+.depth-4
+{
+	margin-left:28%;
+	width:70%;
+}
+
+.depth-5
+{
+	margin-left:35%;
+	width:63%;
+}
+
+textarea.depth-0
+{
+	width:98%;
+}
+
+.comments-form
+{
+	margin-top:15px;
+	display:none;
+}
+
+.comments-form button, .root-comment-form button
+{
+	margin:20px auto 10px auto !important;
+	display:block;
+}
+
+.root-comment-form
+{
+	margin-top:15px;
+}
+
+.reply-link-container
+{
+	float:right;
+	font-size:12px;
+	margin-top:1%;
+	margin-right:-5%;
+	text-align:right;
+	vertical-align:bottom;
 }

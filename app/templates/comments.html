@@ -1,17 +1,103 @@
+<script>
+$(function(){
+
+	$('.reply-link').click(function() {
+		var selector = '#comments-form' + $(this).data('id');
+		if ($(selector).css('display') == 'none')
+		{
+			$(selector).css('display', 'block');
+		}
+		else
+		{
+			$(selector).css('display', 'none');
+		}
+	});
+
+})
+</script>
+
+<script>
+    $(function() {
+        $('.comments-form, .root-comment-form').submit(function() {
+            var postData = $(this).serializeArray();
+            var formURL = "{{url_for('comments', post_id = post.id)}}";
+            $.ajax(
+            {
+                url : formURL,
+                type: "POST",
+                data : postData,
+                success:function(data, textStatus, jqXHR) 
+                {
+                    var title = 'Submitted';
+                    window.history.pushState("Updating URL to Comments", "Comments", '/comments/{{post.id}}');
+                    $('#block').html(data);
+                    console.log(data)
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    var title = 'Error';
+                    window.history.pushState("Updating URL to Comments", "Comments", '/comments/{{post.id}}');
+                    $('#block').html(data);  
+                    console.log(data) 
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+{% macro render_thread(thread, depth) -%}
+
+	{% set comment = thread['root'] %}
+	<div class="comment depth-{{depth}}">
+
+		<div class="avatar-container"><img src="{{ comment.author.avatar(50) }}" /></div>
+		<div class="right">
+			<div class="top">
+				<div class="content">{{ comment.content }}</div>
+			</div>
+			<div class="bottom">
+				<span class="author"><a href="{{url_for('user', nickname = comment.author.nickname)}}">{{comment.author.nickname}}</a> | </span> <span class="time" id="comment_time{{ comment.id }}"><script type="text/javascript">$('#comment_time{{ comment.id }}').html(moment('{{ comment.timestamp }}', 'X').fromNow());</script></span>
+				{% if depth < 5 %}
+				<span class="reply-link-container"><a data-id="{{comment.id}}" id="reply{{comment.id}}" class="reply-link ignore">Reply</a></span>
+				{% endif %}
+			</div>
+		</div>
+		<div class="clearfix"></div>
+
+	</div>
+	{% if depth < 5 %}
+		<form class="comments-form" id="comments-form{{comment.id}}">
+			<textarea name="comment" class="depth-{{depth}}" placeholder="Comment..."></textarea>
+			<input type="hidden" name="parent_id" value="{{ comment.id }}" />
+			<button type="submit">Submit</button>
+		</form>
+	{% endif %}
+	
+	{% if thread['children'] %}
+		{% for child in thread['children'] %}
+
+			{{ render_thread(child, (depth + 1)) }}
+		
+		{% endfor %}
+	{% endif %}
+
+{%- endmacro %}
+
+
+
+
 {% include "inner.html" %}
 
 <!-- extend base layout -->
 {% include "post.html" %}
 
-<pre>
-{{ comments_formatted }}
-</pre>
+<form class="root-comment-form">
+	<textarea name="comment" class="depth-0" placeholder="Comment..."></textarea>
+	<input type="hidden" name="parent_id" value="0" />
+	<button type="submit">Submit</button>
+</form>
 
-<pre>
-	ROOTS:
-	{{ roots_formatted }}
-</pre>
-<pre>
-	QUERY:
-	{{ query }}
-</pre>
+{% for thread in threads %}
+	{{ render_thread(thread, 0) }}
+{% endfor %}

@@ -2,7 +2,6 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from forms import LoginForm
-import datetime
 from forms import LoginForm, EditForm, PostForm
 from models import *
 from config import POSTS_PER_PAGE
@@ -334,14 +333,29 @@ def comments(post_id):
     comments = []
     for root in roots:
         comments.append(build_comment_tree(root))
-    roots_formatted = pprint.pformat(roots)
-    comments_formatted = pprint.pformat(comments)
-    query = Comment.query.filter(Comment.post_id == post_id, Comment.parent_id == 0).order_by(Comment.id.asc())
 
     if request.method == 'GET':
-        return render_template('first.html', query=query,template_to_load = 'comments.html', post = post, roots_formatted = roots_formatted, comments_formatted = comments_formatted)
+        return render_template('first.html', template_to_load = 'comments.html', post = post, threads = comments)
     else:
-        return render_template('comments.html', query=query,post = post, roots_formatted = roots_formatted, comments_formatted = comments_formatted)
+        # if it was POST, but not a submit, don't show errors
+        try:
+            if request.form['comment'] == '' or request.form['parent_id'] == '':
+                    flash('You left a field blank!', 'danger')
+                    return render_template('comments.html', post = post, threads = comments)
+            else:
+                comment = Comment(post_id = post.id, parent_id = request.form['parent_id'], author = g.user, timestamp = int(datetime.datetime.utcnow().strftime("%s")), content = request.form['comment'])
+                db.session.add(comment)
+                db.session.commit()
+                flash('Your comment has been posted!', 'success')
+                roots = Comment.query.filter(Comment.post_id == post_id, Comment.parent_id == 0).order_by(Comment.id.asc()).all()
+                comments = []
+                for root in roots:
+                    comments.append(build_comment_tree(root))
+                return render_template('comments.html', post = post, threads = comments)
+        except:
+            pass
+
+        return render_template('comments.html', post = post, threads = comments)
 
 
 
