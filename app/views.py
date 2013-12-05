@@ -331,6 +331,7 @@ def comments(post_id):
 
     # get root nodes
     roots = Comment.query.filter(Comment.post_id == post_id and Comment.parent_id == 0).order_by(Comment.id.asc()).all()
+    comments = []
     for root in roots:
         comments.append(build_comment_tree(root))
     roots_formatted = pprint.pformat(roots)
