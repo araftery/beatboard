@@ -334,13 +334,13 @@ def comments(post_id):
     comments = []
     for root in roots:
         comments.append(build_comment_tree(root))
-
+    roots_formatted = pprint.pformat(roots)
     comments_formatted = pprint.pformat(comments)
 
     if request.method == 'GET':
-        return render_template('first.html', template_to_load = 'comments.html', post = post, comments_formatted = comments_formatted)
+        return render_template('first.html', template_to_load = 'comments.html', post = post, roots_formatted = roots_formatted, comments_formatted = comments_formatted)
     else:
-        return render_template('comments.html', post = post, comments_formatted = comments_formatted)
+        return render_template('comments.html', post = post, roots_formatted = roots_formatted, comments_formatted = comments_formatted)
 
 
 
