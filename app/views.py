@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from forms import LoginForm
-from datetime import datetime
+from datetime
 from forms import LoginForm, EditForm, PostForm
 from models import *
 from config import POSTS_PER_PAGE
@@ -89,7 +89,7 @@ def after_login(resp):
         if nickname is None or nickname == "":
             nickname = resp.email.split('@')[0]
         nickname = User.make_unique_nickname(nickname)
-        user = User(nickname = nickname, email = resp.email, role = ROLE_USER, time_registered = int(datetime.utcnow().strftime("%s")))
+        user = User(nickname = nickname, email = resp.email, role = ROLE_USER, time_registered = int(datetime.datetime.utcnow().strftime("%s")))
         db.session.add(user)
         db.session.commit()
     remember_me = False
