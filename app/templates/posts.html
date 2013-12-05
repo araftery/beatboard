@@ -34,7 +34,7 @@
     <script type="text/javascript">
 
         $(function() {
-            $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ if g.user g.user.id else 0 }}, starred: {{ post.is_starred_by(g.user.id) }}, callback: callback});
+            $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ g.user.id if g.user else 0 }}, starred: {{ post.is_starred_by(g.user.id) }}, callback: callback});
         });
 
     </script>
