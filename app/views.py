@@ -21,7 +21,6 @@ def select_top(limit = None):
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/index', methods = ['GET', 'POST'])
 @app.route('/index/<int:page>', methods = ['GET', 'POST'])
-@login_required
 def index(page = 1):
     posts = select_top()
     
@@ -47,7 +46,6 @@ def index(page = 1):
 # New view #
 ##############
 @app.route('/new', methods = ['GET', 'POST'])
-@login_required
 def new(page = 1):
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
     if request.method == 'GET':
@@ -134,7 +132,6 @@ def logout():
 #####################
 @app.route('/user/<nickname>/<int:page>', methods = ['GET', 'POST'])
 @app.route('/user/<nickname>', methods = ['GET', 'POST'])
-@login_required
 def user(nickname, page = 1):
     user = User.query.filter_by(nickname = nickname).first()
     if user == None:
@@ -325,7 +322,6 @@ def build_comment_tree(root):
 
 
 @app.route('/comments/<int:post_id>', methods = ['GET', 'POST'])
-@login_required
 def comments(post_id):
     post = Post.query.get(post_id)
 
@@ -340,9 +336,13 @@ def comments(post_id):
     else:
         # if it was POST, but not a submit, don't show errors
         try:
-            if request.form['comment'] == '' or request.form['parent_id'] == '':
-                    flash('You left a field blank!', 'danger')
-                    return render_template('comments.html', post = post, threads = comments)
+            if request.form['comment'] == '' or request.form['parent_id'] == '' or not g.user.is_authenticated():
+                    if g.user.is_authenticated():
+                        flash('You must be logged in to post a comment!', 'danger')
+                        return redirect(url_for('login', code=307))
+                    else:
+                        flash('You left a field blank!', 'danger')
+                        return render_template('comments.html', post = post, threads = comments)
             else:
                 comment = Comment(post_id = post.id, parent_id = request.form['parent_id'], author = g.user, timestamp = int(datetime.datetime.utcnow().strftime("%s")), content = request.form['comment'])
                 db.session.add(comment)
