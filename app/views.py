@@ -4,8 +4,9 @@ from app import app, db, lm, oid
 from forms import LoginForm
 from datetime import datetime
 from forms import LoginForm, EditForm, PostForm
-from models import User, ROLE_USER, ROLE_ADMIN, Post, Upvote, Star
+from models import *
 from config import POSTS_PER_PAGE
+import pprint
 
 ##############
 # Index view #
@@ -105,7 +106,7 @@ def after_login(resp):
 def before_request():
     g.user = current_user
     if g.user.is_authenticated():
-        g.user.last_seen = int(datetime.utcnow().strftime("%s"))
+        g.user.last_seen = int(datetime.datetime.utcnow().strftime("%s"))
         db.session.add(g.user)
         db.session.commit()
 
@@ -312,14 +313,34 @@ def vote(post_id, upvoted, starred):
         db.session.commit()
         return jsonify({'id': post_id, 'upvoted': result_upvoted, 'starred': result_starred})
 
+def build_comment_tree(root):
+    current_tree = {'root': root, 'children': []}
+
+    # get children
+    children = Comment.query.filter(Comment.parent_id == root.id).order_by(Comment.id.asc()).all()
+    for child in children:
+        current_tree['children'].append(build_comment_tree(child))
+
+    return current_tree
+
+
 @app.route('/comments/<int:post_id>', methods = ['GET', 'POST'])
 @login_required
 def comments(post_id):
     post = Post.query.get(post_id)
+
+    # get root nodes
+    roots = Comment.query.filter(Comment.post_id == post_id and Comment.parent_id == 0).order_by(Comment.id.asc()).all()
+    comments = []
+    for root in roots:
+        comments.append(build_comment_tree(root))
+
+    comments_formatted = pprint.pformat(comments)
+
     if request.method == 'GET':
-        return render_template('first.html', template_to_load = 'comments.html', post = post)
+        return render_template('first.html', template_to_load = 'comments.html', post = post, comments_formatted = comments_formatted)
     else:
-        return render_template('comments.html', post = post)
+        return render_template('comments.html', post = post, comments_formatted = comments_formatted)
 
 
 

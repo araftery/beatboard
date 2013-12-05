@@ -114,7 +114,7 @@ class Comment(db.Model):
     content = db.Column(db.String(5000))
     timestamp = db.Column(db.Integer)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    parent_id = db.Column(db.Integer)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
