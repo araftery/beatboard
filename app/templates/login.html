@@ -1,6 +1,18 @@
 <!-- extend base layout -->
-{% set active_page = 'login' -%}
+{% set active_page = 'login' %}
+{% include "inner.html" %}
+
+
+
 <script type="text/javascript">
+$(function()
+{
+    $('.login_btn').on('click', function()
+    {
+        set_openid($(this).data('openid'), $(this).data('pr'));
+    });
+});
+
 function set_openid(openid, pr)
 {
     u = openid.search('<username>')
@@ -9,7 +21,8 @@ function set_openid(openid, pr)
         user = prompt('Enter your ' + pr + ' username:')
         openid = openid.substr(0, u) + user
     }
-    %('#openid'].val(openid);
+
+    $('#openid').val(openid);
     $('#login').submit();
 }
 </script>
@@ -19,7 +32,7 @@ function set_openid(openid, pr)
     {{form.hidden_tag()}}
     <p>
         {% for pr in providers %}
-        <a href="javascript:set_openid('{{pr.url}}', '{{pr.name}}');" class="ignore"><img src='{{pr.imgsrc}}'></img></a> &nbsp&nbsp
+        <a class="login_btn ignore" data-pr='{{pr.name}}' data-openid='{{pr.url}}'><img src='{{pr.imgsrc}}'></img></a> &nbsp&nbsp
         {% endfor %}
     </p>
 
