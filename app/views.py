@@ -330,13 +330,13 @@ def comments(post_id):
     post = Post.query.get(post_id)
 
     # get root nodes
-    roots = Comment.query.filter(Comment.post_id == post_id and Comment.parent_id == 0).order_by(Comment.id.asc()).all()
+    roots = Comment.query.filter(Comment.post_id == post_id, Comment.parent_id == 0).order_by(Comment.id.asc()).all()
     comments = []
     for root in roots:
         comments.append(build_comment_tree(root))
     roots_formatted = pprint.pformat(roots)
     comments_formatted = pprint.pformat(comments)
-    query = Comment.query.filter(Comment.post_id == post_id and Comment.parent_id == 0).order_by(Comment.id.asc())
+    query = Comment.query.filter(Comment.post_id == post_id, Comment.parent_id == 0).order_by(Comment.id.asc())
 
     if request.method == 'GET':
         return render_template('first.html', query=query,template_to_load = 'comments.html', post = post, roots_formatted = roots_formatted, comments_formatted = comments_formatted)
