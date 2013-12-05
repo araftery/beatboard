@@ -20,7 +20,7 @@ function set_openid(openid, pr)
     {{form.hidden_tag()}}
     <p>
         {% for pr in providers %}
-        <a href="javascript:set_openid('{{pr.url}}', '{{pr.name}}');"><img src='{{pr.imgsrc}}'></img></a> &nbsp&nbsp
+        <a onclick="javascript:set_openid('{{pr.url}}', '{{pr.name}}');"><img src='{{pr.imgsrc}}'></img></a> &nbsp&nbsp
         {% endfor %}
     </p>
 
