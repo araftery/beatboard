@@ -13,7 +13,7 @@
 
 .stats .stats-table td
 {
-	padding:10px;
+	padding:5px;
 }
 
 .stats .stats-table tr td:nth-child(1)
@@ -24,4 +24,11 @@
 .user-top-container
 {
 	display:block;
+}
+
+.user-bottom-container
+{
+	display:block;
+	clear:both;
+	padding-top:20px;
 }

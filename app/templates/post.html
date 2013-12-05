@@ -4,9 +4,9 @@
                 <td class="vote">
                     <div class="vote_group">
                             <div class="upvote" id="group{{post.id}}">
-                                <a {% if not g.user.id %}href="{{url_for('login')}}"{% endif %} class="upvote"></a>
+                                <a {% if not g.user.is_authenticated() %}href="{{url_for('login')}}"{% endif %} class="upvote"></a>
                                 <span class="count"></span>
-                                <a {% if not g.user.id %}href="{{url_for('login')}}"{% endif %} class="star"></a>
+                                <a {% if not g.user.is_authenticated() %}href="{{url_for('login')}}"{% endif %} class="star"></a>
                             </div>
                     </div>
                 </td>
@@ -29,7 +29,7 @@
 <script type="text/javascript">
 
     $(function() {
-        $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ post.is_upvoted_by(g.user.id) if g.user.id else 0 }}, starred: {{ post.is_starred_by(g.user.id) if g.user.id else 0 }}, callback: callback});
+        $('.vote_group #group{{post.id}}').upvote({id: {{ post.id }}, count: {{ post.upvotes.count() }}, upvoted: {{ post.is_upvoted_by(g.user.id) if g.user.is_authenticated() else 0 }}, starred: {{ post.is_starred_by(g.user.id) if g.user.is_authenticated() else 0 }}, callback: callback});
     });
 
 </script>

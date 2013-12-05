@@ -14,8 +14,14 @@
         <div class="stats">
             <table class="stats-table">
                 <tr>
-                    <td>Posts</td>
-                    <td>{{ user.posts.count() }}</td>
+                    <td><a href="{{url_for('user', nickname = user.nickname, page_name = 'posts')}}">Posts</a></td>
+                    <td><a href="{{url_for('user', nickname = user.nickname, page_name = 'posts')}}">{{ user.posts.count() }}</a></td>
+                </tr>
+
+
+                <tr>
+                    <td><a href="{{url_for('user', nickname = user.nickname, page_name = 'favorites')}}">Favorites</a></td>
+                    <td><a href="{{url_for('user', nickname = user.nickname, page_name = 'favorites')}}">{{ user.stars.count() }}</a></td>
                 </tr>
 
                 <tr>
@@ -38,11 +44,6 @@
                     <td>Comments</td>
                     <td>{{ user.comments.count() }}</td>
                 </tr>
-
-                <tr>
-                    <td>Favorites</td>
-                    <td>{{ user.stars.count() }}</td>
-                </tr>
             </table>
         </div>
 
@@ -53,6 +54,10 @@
 
 <div class="user-bottom-container">
     <div class="user-bottom">
+        {% if page_name != 'none' %}
+            <h3>{{ page_name.capitalize() }}</h3>
+        {% endif %}
+
     {% include "posts.html" %}
     </div>
 </div>

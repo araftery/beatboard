@@ -130,27 +130,36 @@ def logout():
 #####################
 # User Profile Page #
 #####################
-@app.route('/user/<nickname>/<int:page>', methods = ['GET', 'POST'])
+@app.route('/user/<nickname>/<page_name>/<int:page>', methods = ['GET', 'POST'])
+@app.route('/user/<nickname>/<page_name>/<int:page>', methods = ['GET', 'POST'])
+@app.route('/user/<nickname>/<page_name>', methods = ['GET', 'POST'])
 @app.route('/user/<nickname>', methods = ['GET', 'POST'])
-def user(nickname, page = 1):
+def user(nickname, page_name = 'none', page = 1):
     user = User.query.filter_by(nickname = nickname).first()
     if user == None:
         flash('User ' + nickname + ' not found.', 'danger')
         return redirect(url_for('index'), code=307)
 
-    posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.author_id == user.id).order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
+    posts = None
+
+    if page_name == 'posts':
+        posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.author_id == user.id).order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
+    elif page_name == 'favorites':
+        posts = Post.query.outerjoin(Star).group_by(Post.id).filter(Star.user_id == user.id).order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
 
     if request.method == 'GET':
         return render_template('first.html',
             template_to_load = 'user.html',
             user = user,
             no_show_rank = True,
-            posts = posts)
+            posts = posts,
+            page_name = page_name)
     else:
         return render_template('user.html',
             user = user,
             no_show_rank = True,
-            posts = posts)
+            posts = posts,
+            page_name = page_name)
 
 #####################
 # Edit Profile Page #
