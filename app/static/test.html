@@ -1,13 +1,15 @@
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://connect.soundcloud.com/sdk.js"></script>
+<html>
+<head>
+<script src="/static/js/jquery-191.js"></script>
 <script>
-SC.initialize({
-    client_id: '59935a11f9f900d300670793c7674d6d' // I added my id here
-});
+$(function(){
+	window.history.pushState("Updating URL to New Page", "New Page", "/newpage");
 
-SC.get("/tracks/75868018", {}, function(sound){
-	console.log(sound);
-    alert("Sound URI: "+sound.uri);
-    $("#audio-test").attr("src", sound.uri);
+	$(window).bind('statechange', function(){
+		alert("CHANGE");
+	});
 });
 </script>
+<body>
+</body>
+</html>
