@@ -197,7 +197,6 @@ def edit():
 ##########
 @app.route('/search/<query>/<int:page>', methods = ['GET', 'POST'])
 @app.route('/search/<query>', methods = ['GET', 'POST'])
-@login_required
 def search(query = '', page = 1):
         if query == '':
             flash('Sorry, you cannot enter a blank search query.', 'danger')
