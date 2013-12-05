@@ -241,7 +241,7 @@ def submit(title = '', url = ''):
                 flash("You have already upvoted a duplicate post.", 'danger')
                 return redirect(url_for('index'), code=307)
         else:
-            post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'], timestamp = int(datetime.utcnow().strftime("%s")), author = g.user)
+            post = Post(title = form.data['title'], content = form.data['content'], song_url = form.data['song_url'], timestamp = int(datetime.datetime.utcnow().strftime("%s")), author = g.user)
             db.session.add(post)
 
             upvote = Upvote(voter = g.user, post = post)
