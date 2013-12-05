@@ -287,3 +287,35 @@ textarea.depth-0
 {
 	text-align:center;
 }
+
+table.submit
+{
+	width:100%;
+}
+
+table.submit tr:not(.submit) td:nth-child(1)
+{
+	width:15%;
+}
+
+table.submit tr td
+{
+	padding:10px;
+}
+
+table.submit tr td:nth-child(2)
+{
+	width:85%;
+}
+
+tr.title > td > input, tr.url > td > input, tr.description > td > textarea
+{
+	padding:7px;
+	width:80%;
+}
+
+tr.submit td
+{
+	text-align:center;
+	width:100%;
+}

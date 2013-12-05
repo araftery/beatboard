@@ -58,7 +58,7 @@ $(function(){
 			</div>
 			<div class="bottom">
 				<span class="author"><a href="{{url_for('user', nickname = comment.author.nickname)}}">{{comment.author.nickname}}</a> | </span> <span class="time" id="comment_time{{ comment.id }}"><script type="text/javascript">$('#comment_time{{ comment.id }}').html(moment('{{ comment.timestamp }}', 'X').fromNow());</script></span>
-				{% if depth < 5 %}
+				{% if depth < 5 and g.user.is_authenticated() %}
 				<span class="reply-link-container"><a data-id="{{comment.id}}" id="reply{{comment.id}}" class="reply-link ignore">Reply</a></span>
 				{% endif %}
 			</div>
@@ -66,7 +66,7 @@ $(function(){
 		<div class="clearfix"></div>
 
 	</div>
-	{% if depth < 5 %}
+	{% if depth < 5 and g.user.is_authenticated() %}
 		<form class="comments-form" id="comments-form{{comment.id}}">
 			<textarea name="comment" class="depth-{{depth}}" placeholder="Comment..."></textarea>
 			<input type="hidden" name="parent_id" value="{{ comment.id }}" />
@@ -92,11 +92,13 @@ $(function(){
 <!-- extend base layout -->
 {% include "post.html" %}
 
+{% if g.user.is_authenticated() %}
 <form class="root-comment-form">
 	<textarea name="comment" class="depth-0" placeholder="Comment..."></textarea>
 	<input type="hidden" name="parent_id" value="0" />
 	<button type="submit">Submit</button>
 </form>
+{% endif %}
 
 {% for thread in threads %}
 	{{ render_thread(thread, 0) }}

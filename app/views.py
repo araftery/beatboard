@@ -337,7 +337,7 @@ def comments(post_id):
         # if it was POST, but not a submit, don't show errors
         try:
             if request.form['comment'] == '' or request.form['parent_id'] == '' or not g.user.is_authenticated():
-                    if g.user.is_authenticated():
+                    if not g.user.is_authenticated():
                         flash('You must be logged in to post a comment!', 'danger')
                         return redirect(url_for('login', code=307))
                     else:

@@ -33,20 +33,31 @@
 <h1>Submit a Song</h1>
 <form id="submit_form" name="submit_form" method="post">
     {{form.hidden_tag()}}
-    <p> Title: {{form.title(size=80, value=title)}} </p>
-    <p> URL to Song: {{form.song_url(size=80, value=url)}} </p>
-    <p> Description: {{form.content}} </p>
+    <table class="submit">
+        <tr class="title">
+            <td>Title</td>
+            <td>{{form.title(value=title, placeholder="Song title...")}}</td>
+        </tr>
+
+        <tr class="url">
+            <td>URL to Song</td>
+            <td>{{form.song_url(value=url, placeholder="Song url...")}}</td>
+        </tr>
+
+        <tr class="description">
+            <td>Description</td>
+            <td>{{form.content(placeholder="Description (optional)...")}}</td>
+        </tr>
      
     {% if form.errors and not hide_errors %}
-    <ul class="errors">
         {% for field_name, field_errors in form.errors|dictsort if field_errors %}
             {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
+                <div class="alert alert-danger">{{ form[field_name].label }}: {{ error }}</div>
             {% endfor %}
         {% endfor %}
-    </ul>
     {% endif %}
     {{form.submitted_field}}
-<br>
-    <p><input type="submit" value="Submit"></p>
+    <tr class="submit">
+        <td colspan="2"><button type="submit">Submit</button></td>
+    </tr>
 </form>

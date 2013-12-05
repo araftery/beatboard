@@ -96,9 +96,11 @@
                             <a class="ignore" data-title="{{name}}" data-href="{{ href|e }}">{{ name|e }}</a>
                         </li>
                     {% endfor %}
+                        {% if g.user.id %}
                         <li>
                             <a class="ignore logout" href="/logout">Logout</a>
                         </li>
+                        {% endif %}
                 </ul>
             <!-- ./menu-items -->
                 <form name="search_form" class="navbar-search pull-right" id="search_form">
