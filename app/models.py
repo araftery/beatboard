@@ -118,7 +118,7 @@ class Comment(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Comment %r>' % (self.body)
+        return '<Comment %r>' % (self.content)
 
 ###############
 # Stars Model #
