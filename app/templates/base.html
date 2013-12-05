@@ -99,7 +99,7 @@
                     {% endfor %}
                         {% if g.user.is_authenticated() %}
                         <li>
-                            <a class="ignore" data-title="url" data-href="{{url_for('user', nickname=g.user.nickname}}">Profile</a>
+                            <a class="ignore" data-title="url" data-href="{{url_for('user', nickname=g.user.nickname)}}">Profile</a>
                         </li>
 
                         <li>
