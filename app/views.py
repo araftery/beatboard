@@ -12,6 +12,7 @@ import pprint
 ##############
 def select_top(limit = None):
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc())
+    posts = posts[1:].append(posts[0])
 
     if limit != None:
         posts = posts.limit(limit)
