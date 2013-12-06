@@ -121,11 +121,6 @@ def before_request():
 
 
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.song_url.ilike('%soundcloud.com%')).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).limit(20)
-    try:
-        d = collections.dequeue(posts)
-        posts.rotate(-1)
-    except:
-        pass
 
     post_string = ''
     for (index, post) in enumerate(posts):
