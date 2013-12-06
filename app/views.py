@@ -120,10 +120,14 @@ def before_request():
 
 
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.song_url.ilike('%soundcloud.com%')).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).limit(20)
-    first = posts[0]
-    last = posts[19]
-    posts[0] = last
-    posts[19] = first
+    try:
+        first = posts[0]
+        last = posts[-1]
+        posts[-1] = first
+        posts[0] = last
+    except:
+        pass
+
     post_string = ''
     for (index, post) in enumerate(posts):
         if index == 0:
