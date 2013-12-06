@@ -6,6 +6,7 @@ from forms import LoginForm, EditForm, PostForm
 from models import *
 from config import POSTS_PER_PAGE
 import pprint
+import collections
 
 ##############
 # Index view #
@@ -121,10 +122,8 @@ def before_request():
 
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.song_url.ilike('%soundcloud.com%')).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).limit(20)
     try:
-        first = posts[0]
-        last = posts[-1]
-        posts[-1] = first
-        posts[0] = last
+        d = collections.dequeue(posts)
+        posts.rotate(-1)
     except:
         pass
 
