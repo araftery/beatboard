@@ -90,7 +90,8 @@
         <div class="navbar navbar-inverse navbar-fixed-top navbar-static-top">  
             <div class="navbar-inner">
                 <ul class="nav">
-                    <li class="logo"><a href="/index" class="ignore"><img height="40" src="/static/img/logo_white.png"></img></a></li>
+                    <li class="logo"><a class="ignore" data-title="Top" data-href="/"><img height="40" src="/static/img/logo_white.png"></img></a></li>
+                    
                     {% for href, id, name in navigation_bar %}
                         <li{% if id == active_page %} class="active"{% endif %}>
                             <a class="ignore" data-title="{{name}}" data-href="{{ href|e }}">{{ name|e }}</a>
