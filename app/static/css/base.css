@@ -319,3 +319,54 @@ tr.submit td
 	text-align:center;
 	width:100%;
 }
+
+.yahoo.btn-primary {
+  color: #ffffff;
+  background-color: #7B0099;
+}
+.yahoo.btn-primary:hover,
+.yahoo.btn-primary:focus,
+.yahoo.btn-primary:active,
+.yahoo.btn-primary.active,
+.yahoo.open .dropdown-toggle.btn-primary {
+  color: #ffffff;
+  background-color: #963bac;
+  border-color: #963bac;
+}
+
+.icon-google
+{
+	width:14px;
+	height:21px;
+	background:url('/static/img/google-g.png');
+	float:left;
+}
+
+.icon-yahoo
+{
+	width:28px;
+	height:21px;
+	background:url('/static/img/yahoo-y.png');
+	float:left;
+}
+
+.icon-aol
+{
+	width:24px;
+	height:21px;
+	background:url('/static/img/aol-triangle.png');
+	float:left;
+}
+
+.icon-border
+{
+	height:21px;
+	border-right:1px dotted #fff;
+	float:left;
+	margin:0 5px;
+}
+
+.login_btn
+{
+	margin:5px 5px;
+}

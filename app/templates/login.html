@@ -15,28 +15,23 @@ $(function()
 
     function set_openid(openid, pr)
     {
-        u = openid.search('<username>')
-        if (u != -1) {
-            // openid requires username
-            user = prompt('Enter your ' + pr + ' username:')
-            openid = openid.substr(0, u) + user
-        }
-
         $('#openid').val(openid);
         $('#login').submit();
     }
 
 });
 </script>
+
 <h1 class="center">Welcome!</h1>
 <h4 class="center">Sign in using one of the services below</h4>
 <form id="login" method="post" name="login">
     {{form.hidden_tag()}}
-    <p>
-        {% for pr in providers %}
-        <a class="login_btn ignore" data-pr='{{pr.name}}' data-openid='{{pr.url}}'><img src='{{pr.imgsrc}}'></img></a> &nbsp&nbsp
-        {% endfor %}
-    </p>
+
+        <button class="login_btn btn btn-primary" data-pr='Google' data-openid='https://www.google.com/accounts/o8/id'><div class="icon-google"></div><div class="icon-border"></div>Login with Google</button>
+
+        <button class="login_btn btn btn-primary yahoo" data-pr='Yahoo' data-openid='https://me.yahoo.com'><div class="icon-yahoo"></div><div class="icon-border"></div>Login with Yahoo</button>
+
+        <button class="login_btn btn btn-primary" data-pr='AOL' data-openid='http://openid.aol.com'><div class="icon-aol"></div><div class="icon-border"></div>Login with AOL</button>
 
     <p>{{form.remember_me}} Remember Me</p>
 
