@@ -16,7 +16,7 @@ var callback = function(data) {
     {
         data.starred_int = 0;
     }
-    url = '/vote/' + data.id + '/' + data.upvoted_int + '/' + data.starred_int
+    url = '/vote/' + data.id + '/' + data.upvoted_int + '/' + data.starred_int;
     $.ajax({
         url: '/vote/' + data.id + '/' + data.upvoted_int + '/' + data.starred_int,
         type: 'GET'

@@ -370,3 +370,14 @@ tr.submit td
 {
 	margin:5px 5px;
 }
+
+.user-pic
+{
+	width:214px;
+}
+.avatar_link
+{
+	width:214px;
+	height:1px;
+	text-align:center;
+}

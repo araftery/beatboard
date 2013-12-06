@@ -2,13 +2,15 @@
 
 <!-- extend base layout -->
 {% set active_page = 'user' -%}
-
 <div class="user-top-container">
     <div class="user-top">
 
         <h1>{{ user.nickname }}</h1>
         <div class="user-pic">
             <img class="avatar" src="{{ user.avatar(200) }}" />
+            {% if g.user.nickname == user.nickname %}
+                <div class="avatar_link"><a href="http://gravatar.com" target="_blank" class="ignore">Change Avatar</a></div>
+            {% endif %}
         </div>
 
         <div class="stats">
