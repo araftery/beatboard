@@ -12,7 +12,6 @@ import pprint
 ##############
 def select_top(limit = None):
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc())
-    posts = posts[1:].append(posts[0])
 
     if limit != None:
         posts = posts.limit(limit)
@@ -121,6 +120,7 @@ def before_request():
 
 
     posts = Post.query.outerjoin(Upvote).group_by(Post.id).filter(Post.song_url.ilike('%soundcloud.com%')).order_by(db.func.count(Upvote.id).desc(), Post.timestamp.desc()).limit(20)
+    posts = posts[1:].append(posts[0])
     post_string = ''
     for (index, post) in enumerate(posts):
         if index == 0:
