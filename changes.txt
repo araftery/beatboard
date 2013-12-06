@@ -1,0 +1,4 @@
+Notes:
+	Edited /Library/Python/2.7/site-packages/flask_login.py (v0.2.7)
+		Line 188
+		Line 62

@@ -8,12 +8,6 @@
 $(function()
 {
 
-    // Check Existence
-    if ( typeof History.Adapter !== 'undefined' && window.location.pathname != '/login') {
-        window.location = "/login";
-    }
-
-
     $('.login_btn').on('click', function()
     {
         set_openid($(this).data('openid'), $(this).data('pr'));
