@@ -16,7 +16,7 @@
                         </div>
                     </td>
                     
-                    <td class="link"><a href="{{post.song_url}}" class="{{ 'stratus' if post.song_url.lower().find('soundcloud') != -1 else 'ignore' }}">{{post.title}}</a></td>
+                    <td class="link"><a href="{{post.song_url}}" target="_blank" class="{{ 'stratus' if post.song_url.lower().find('soundcloud') != -1 else 'ignore' }}">{{post.title}}</a></td>
                 </tr>
                 <tr>
                     <td colspan="{{ 1 if no_show_rank else 2 }}"></td>
