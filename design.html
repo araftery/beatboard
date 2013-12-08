@@ -1,0 +1,401 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>Basics and Setup</title>
+
+</head>
+<body>
+<h1>Basics and Setup</h1>
+
+<h2>Dependencies</h2>
+
+<p>Beatboard is written in Python using the Flask framework. Its dependencies are the following:</p>
+
+<ul>
+<li>Python 2.7</li>
+<li>flask 0.9</li>
+<li>flask-login</li>
+<li>flask-openid</li>
+<li>sqlalchemy 0.7.9</li>
+<li>flask-sqlalchemy 0.16</li>
+<li>sqlalchemy-migrate 0.7.2</li>
+<li>flask-wtf 0.8.4</li>
+<li>pytz 2013b</li>
+<li>flup</li>
+<li>psycopg2</li>
+<li>Postgresql 9.3</li>
+</ul>
+
+
+<h2>The file structure is the following:</h2>
+
+<ul>
+<li><p>/app</p>
+
+<ul>
+<li>Main application files (including models, views/controllers, and templates)</li>
+</ul>
+</li>
+<li><p>/app/templates</p>
+
+<ul>
+<li>Templates</li>
+</ul>
+</li>
+<li><p>/app/static</p>
+
+<ul>
+<li>Static files (like images, stylesheets, etc.)</li>
+<li>/app/static/css/base.css -> custom styles</li>
+<li>/app/static/js/base.js -> custom Javascript</li>
+</ul>
+</li>
+<li><p>/db_repository</p>
+
+<ul>
+<li>Database migration history</li>
+</ul>
+</li>
+<li><p>/tmp</p>
+
+<ul>
+<li>Temporary files (e.g., user authentication files, etc.)</li>
+</ul>
+</li>
+</ul>
+
+
+<p><em>Note: These dependencies and file structure are adopted from the description here: http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world</em></p>
+
+<h2>How to Set Up</h2>
+
+<ol>
+<li><p><strong>Get Dependencies.</strong> To set up on a machine with Python 2.7 already installed, first, pip install the dependencies. If the Python module name has a version number after it in the list above, be sure to reference that specific version, as in the example below:</p>
+
+<pre><code> $ sudo pip install flask==0.9
+</code></pre>
+
+<p> Build files for the dependencies are also included in the /dependencies folder for your convenience, if you can't or would rather not use pip.</p></li>
+<li><p><strong>Set Up Database.</strong> Set up the database. Create a Postgres database with the name <code>cs50_project</code>. Create a user named <code>jharvard</code> with password <code>crimson</code>, and grant all privileges to that user on the <code>cs50_project</code> database. The example below assumes that your user has Postgres priviliges, and that the Postgres server is running on localhost:</p>
+
+<pre><code> $ psql template1
+ psql&gt; CREATE DATABASE cs50_project
+ psql&gt; CREATE USER jharvard WITH PASSWORD 'crimson'
+ psql&gt; CREATE ALL PRIVILEGES ON DATABASE cs50_project TO jharvard
+</code></pre></li>
+<li><p><strong>Run the DB migration script.</strong> Now, <code>cd</code> into the root project directory, and run the database migration script to create the proper tables and columns, as required by the data models.</p>
+
+<pre><code> $ cd /cs50_project
+ $ sudo python ./db_create.py
+ $ sudo python ./db_migrate.py
+</code></pre>
+
+<p> This sets up the database and then migrates it, just to ensure it's up-to-date.</p></li>
+<li><p><strong>Run the server.</strong> To start the server on localhost port 5000, <code>cd</code> into the root project directory and run the <code>run.py</code> file, as below:</p>
+
+<pre><code> $ cd /cs50_project
+ $ ./run.py
+</code></pre>
+
+<p> This will start the server on your local machine. You can now visit the website in your browser at http://localhost:5000/</p></li>
+</ol>
+
+
+<h2>Changes to Module Code</h2>
+
+<ul>
+<li>Note that two small tweaks were made to the <code>flask-login</code> module:
+
+<ol>
+<li> On line 62, the alert message was deleted
+
+<ul>
+<li>This was to stop the message from appearing after the user had already logged in</li>
+</ul>
+</li>
+<li> line 188, an extra parameter, <code>code=307</code> was added to the <code>redirect()</code> function call.
+
+<ul>
+<li>This forces the redirect to use code 307 in its HTTP header, which preserves the original request method (rather than setting it simply to GET). The importance of this is explained later on, but suffice it to say for now that it allows the program to distinguish between AJAX requests (which occur only after the site has been loaded for the first time) and non-AJAX requests (which should only occur when the site is loaded for the first time).</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>While these changes do make for a better user experience, they are not absolutely critical, and, if the user is already logged in when they view the site (e.g., still logged in from a previous visit), they don't have any impact.</li>
+</ul>
+
+
+<h2>Notes on AWS Setup</h2>
+
+<ul>
+<li>Beatboard.io uses an Amazon EC2 instance to run on the web</li>
+<li>The setup is almost identical to the one described above. The only difference is an added step to install the Apache web server, with the WSGI module, which helps route requests to the Python app
+
+<ul>
+<li>Instead of the run.py script, the WSGI implmentation uses the similiar cs50_project.wsgi</li>
+</ul>
+</li>
+</ul>
+
+
+<h1>Specifics</h1>
+
+<h2>Flask Setup Files</h2>
+
+<ul>
+<li><strong>/config.py</strong> - Has required constants, like the database URI, the secret key for WTForms, and the number of posts to display per page when using pagination</li>
+<li><strong>/app/<strong>init</strong>.py</strong> - Runs when the app first starts, imports required modules</li>
+</ul>
+
+
+<h2>Models</h2>
+
+<ul>
+<li>In <strong>/app/models.py</strong> - defines the following models as SQLAlchemy classes:
+
+<ul>
+<li>User
+
+<ul>
+<li>A user on the site</li>
+<li>Uses OpenID for authentication, so no need to store password</li>
+<li>Has "nickname" (username), email address, and other identifying data</li>
+<li>Has several SQLAlchemy db relationships for convenience, including posts (all the user's posts), stars (all the user's favorites), upvote (all the user's upvoted posts), and comments (all the user's comments).</li>
+<li>Has several helper functions, like <code>is_authenticated()</code> to check for authentication, <code>num_upvotes()</code> to get a count of the upvotes on the user's posts, <code>make_unique_username()</code> to make a unique nickname if the user's preferred one (which is supplied by the OpenID provider) is a already in use, and <code>avatar()</code> to get the user's avatar image, if any, from Gravatar (based on the user's email address), among others.</li>
+</ul>
+</li>
+<li>Post
+
+<ul>
+<li>A song post on the site</li>
+<li>Stores title, content (an optional description), the song URL, author's ID, and some helper SQLAlchemy db relationships</li>
+<li>Also has some helper functions, like <code>is_upvoted_by()</code> and <code>is_starred_by()</code>, which check if a post is upvoted or starred, respectively, by a given user</li>
+</ul>
+</li>
+<li>Comment
+
+<ul>
+<li>A comment on a song, or on another comment</li>
+<li>Stores its parent's id (0 if it is the start of a thread), the id of the post it's on, the id of the author, etc.</li>
+</ul>
+</li>
+<li>Star
+
+<ul>
+<li>A "favorite" by a user on a song</li>
+<li>Stores the user's id and the song's id</li>
+</ul>
+</li>
+<li>Upvote
+
+<ul>
+<li>An upvote by a user on a song</li>
+<li>Stores the user's id and the song's id</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Controllers</h2>
+
+<ul>
+<li>In <strong>/app/views.py</strong> (called "views" here, but these are what are traditionally called controllers)</li>
+<li>Has a function for each page</li>
+<li>Uses Flask's <code>app.route</code> decorator to route requests to the proper controller</li>
+<li>You'll notice almost every controller checks the request method and renders slightly different templates (views) based on the request
+
+<ul>
+<li>This is because the base part of the template, that is, the header and SoundCloud Stratus player should only be loaded once. Since we want users to be able to browse the site while songs play in the background, most of the site is loaded dynamically via AJAX. In order to distinguish between the visitor's first visit of a session (a GET request), and subsequent requests (AJAX requests), the AJAX requests all use POST. The controllers check for POST requests, and only return the inner part of the page if it's a POST request. This way, those base files are only loaded once, avoiding fatal Javascript errors.</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Views</h2>
+
+<ul>
+<li>In <strong>/app/templates</strong></li>
+<li>Use the Jinja2 templating system (standard with Flask)</li>
+<li>Use Bootstrap 2.3.2 and Flat-UI front-end frameworks</li>
+<li>Use jQuery, Moment.js (for local time conversion), and History.js (for supporting back and forward buttons using AJAX requests and the HTML5 History API)</li>
+<li>Use the SoundCloud Stratus player for catching SoundCloud song links and playing the songs on the site</li>
+<li>The first.html template is loaded only once (on the first request). Afterward, the individual templates are loaded, which themselves load inner.html</li>
+</ul>
+
+
+<h2>Forms</h2>
+
+<ul>
+<li>In <strong>/app/forms.py</strong></li>
+<li>WTForms declarations</li>
+<li>Forms for logging in, posting, and searching</li>
+</ul>
+
+
+<h1>Bugs</h1>
+
+<ol>
+<li>When not logged in and playing a song with the Stratus player, if you click on the "login" or "submit" buttons and go to the login page, you cannot successfully login (when you try to login, it redirects you to the homepage and shows the posts with a list of links, without loading the external stylesheets or scripts).</li>
+<li>Occasionally, when first loading the site, the Stratus player takes a while to load or doesn't load at all (the script is hosted externally, which may contribute to that problem)
+
+<ul>
+<li>Usually, clicking on a song to play will fix this, or, at worst, refreshing the page once or twice.</li>
+</ul>
+</li>
+</ol>
+
+</body>
+</html>
