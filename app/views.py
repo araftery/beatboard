@@ -75,7 +75,7 @@ def login():
 
     # if the user is already authenticated, load the homepage and skip the login page
     if g.user is not None and g.user.is_authenticated():
-        return redirect(url_for('index'), code=307)
+        return redirect(url_for('index'), code=302)
 
     # load the login WTForm
     form = LoginForm()
@@ -104,7 +104,7 @@ def after_login(resp):
     # validate the information given by the OpenID provider
     if resp.email is None or resp.email == "":
         flash('Invalid login. Please try again.', 'danger')
-        return redirect(url_for('login'), code=307)
+        return redirect(url_for('login'), code=302)
 
     # check to see if this is uer is in the database
     user = User.query.filter_by(email = resp.email).first()

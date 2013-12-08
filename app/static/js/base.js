@@ -73,7 +73,7 @@ $(function() {
 
 
     
-    $(document).on("click", 'a:not(.ignore, .upvote, .star)', function(event) { 
+    $(document).on("click", 'a:not(.ignore, .upvote, .star, .stratus)', function(event) { 
         event.preventDefault(); 
         var title = 'BeatBoard'
         var href = $(this).attr('href');
