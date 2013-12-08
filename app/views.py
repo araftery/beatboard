@@ -47,8 +47,6 @@ def index(page = 1):
             posts = posts,
             posts_per_page = POSTS_PER_PAGE)
 
-
-
 ##################
 # New Controller #
 ##################
@@ -63,7 +61,6 @@ def new(page = 1):
         return render_template('first.html', method = request.method, template_to_load = 'new.html', title = 'New', posts = posts, posts_per_page = POSTS_PER_PAGE)
     else:
         return render_template('new.html', method = request.method, title = 'New', posts = posts, posts_per_page = POSTS_PER_PAGE)
-
 
 ##################
 # Login Handlers #
@@ -99,6 +96,7 @@ def login():
         return render_template('login.html',
             title = 'Sign In',
             form = form)
+
 # runs after the user has logged in with an OpenID provider
 @oid.after_login
 def after_login(resp):
@@ -133,8 +131,7 @@ def after_login(resp):
     login_user(user, remember = remember_me)
 
     # the user is all set, so load the page originally requested, or load the index page
-    return redirect(request.args.get('next') or url_for('index'), code=307)
-
+    return redirect(request.args.get('next') or url_for('index'), code=302)
 
 ##
 # Runs before every request
@@ -160,7 +157,6 @@ def before_request():
         else:
             post_string += ',' + post.song_url
     g.top_20_list = post_string
-
 
 ##########
 # Logout #

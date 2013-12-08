@@ -1,6 +1,5 @@
 from app import db
 import datetime
-import utilities
 from sqlalchemy.orm import relationship
 from hashlib import md5
 
