@@ -30,6 +30,9 @@ class User(db.Model):
     def is_active(self):
         return True
 
+    def is_anonymous(self):
+        return False
+
     ##
     # Gets number of upvotes on the user's posts
     ##
