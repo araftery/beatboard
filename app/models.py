@@ -4,23 +4,14 @@ import utilities
 from sqlalchemy.orm import relationship
 from hashlib import md5
 
-##############
-# User Model #
-##############
+# constants for the number that denotes different user types
+# for support for a potential future admin panel 
 ROLE_USER = 0
 ROLE_ADMIN = 1
 
-def create_test_posts(start_num, num):
-    for i in range(start_num, num):
-        num = str(i)
-        post = Post(title = "test title " + num, content = "test content " + num, song_url = "http://www.google.com/test/url/" + num, timestamp = int(datetime.datetime.utcnow().strftime("%s")), author_id = 1)
-        db.session.add(post)
-
-        upvote = Upvote(voter_id = 1, post = post)
-        db.session.add(upvote)
-
-    db.session.commit()
-
+##############
+# User Model #
+##############
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     nickname = db.Column(db.String(64), unique = True)
@@ -40,30 +31,42 @@ class User(db.Model):
     def is_active(self):
         return True
 
-    def is_anonymous(self):
-        return False
-
+    ##
+    # Gets number of upvotes on the user's posts
+    ##
     def num_upvotes(self):
         num_upvotes = 0
         for post in self.posts:
             num_upvotes += post.upvotes.count()
         return num_upvotes
 
+    ##
+    # Average upvotes per post for user
+    ##
     def avg_karma(self):
         return round(self.num_upvotes()/self.posts.count(), 2)
 
     def get_id(self):
         return unicode(self.id)
 
+    ##
+    # Get the user's avatar from Gravatar
+    ##
     def avatar(self, size):
         return 'https://s.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
 
-
-    # Source: 
+    ##
+    # Creates a unique nickname for the user
+    # Source: http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-vii-unit-testing
+    ##
     @staticmethod
     def make_unique_nickname(nickname):
+
+        # if the nickname is already unique, just return it
         if User.query.filter_by(nickname = nickname).first() == None:
             return nickname
+
+        # otherwise, append a 2 and check, and continuing incrementing and checking until a unique nickname is found
         version = 2
         while True:
             new_nickname = nickname + str(version)
@@ -86,17 +89,21 @@ class Post(db.Model):
     song_url = db.Column(db.String(2000))
     timestamp = db.Column(db.Integer)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    num_upvotes = db.Column(db.Integer, default = 1)
     upvotes = db.relationship('Upvote', backref = 'post', lazy = 'dynamic')
     stars = db.relationship('Star', backref = 'post', lazy = 'dynamic')
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
+    ##
+    # checks to see if the post is upvoted by a given user
+    ##
     def is_upvoted_by(self, user_id):
         if self.upvotes.filter(Upvote.voter_id == user_id).count() > 0:
             return 1
         else:
             return 0
-
+    ##
+    # checks to see if the post is starred by a given user
+    ##
     def is_starred_by(self, user_id):
         if self.stars.filter(Star.user_id == user_id).count() > 0:
             return 1

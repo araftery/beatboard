@@ -1,4 +1,5 @@
-{% if g.user.nickname %}
+{# if the user is logged in, show the profile button in the navbar #}
+{% if g.user.is_authenticated() %}
 {% set profile_link = '/user/' + g.user.nickname %}
 {% else %}
 {% set profile_link = '/' %}
@@ -8,6 +9,7 @@
 {% set query = '' %}
 {% endif %}
 
+{# each tuple is a button in the navbar #}
 {% set navigation_bar = [
     ('/', 'index', 'Top'),
     ('/new', 'new', 'New'),
@@ -54,8 +56,6 @@
     <script src="/static/js/lib/jquery.placeholder.js"></script>
     <script src="/static/js/lib/moment.min.js"></script>
     <script src="/static/js/lib/jquery.history.js"></script>
-
-    <!-- required -->
     <script src="/static/js/lib/jquery.upvote.js"></script>
 
 
@@ -136,6 +136,7 @@
         <!-- /.navbar --> 
 
     <div id="block">
+        {# place for the inner content #}
         {% block content %}{% endblock %}
     </div>
 

@@ -1,3 +1,4 @@
+// handles upvotes and stars
 var callback = function(data) {
     if (data.upvoted == true)
     {
@@ -23,7 +24,7 @@ var callback = function(data) {
     });
 };
 
-
+// load links using AJAX
 $(function() {
 
     var History = window.History;
