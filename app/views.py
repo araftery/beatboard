@@ -94,14 +94,11 @@ def login():
         return render_template('first.html',
             template_to_load = 'login.html', 
             title = 'Sign In',
-            form = form,
-            providers = app.config['OPENID_PROVIDERS'])
+            form = form)
     else:
         return render_template('login.html',
             title = 'Sign In',
-            form = form,
-            providers = app.config['OPENID_PROVIDERS'])
-
+            form = form)
 # runs after the user has logged in with an OpenID provider
 @oid.after_login
 def after_login(resp):
